@@ -3943,7 +3943,83 @@ async function openCourse(
   }
 }
 
+function formatModule(module) {
 
+  const originalTitle =
+    String(module.title || "")
+      .trim();
+
+
+  /*
+    Вводный модуль не нумеруем.
+  */
+  if (
+    /вводн/i.test(originalTitle)
+  ) {
+
+    return {
+      badge: "★",
+      title: originalTitle
+    };
+  }
+
+
+  /*
+    Поддерживаем оба варианта:
+    "1 МОДУЛЬ — ТЕОРИЯ"
+    "МОДУЛЬ 1 — ТЕОРИЯ"
+  */
+
+  let match =
+    originalTitle.match(
+      /^(\d+)\s*модуль\s*[—–\-:]?\s*(.*)$/i
+    );
+
+
+  if (match) {
+
+    return {
+      badge: match[1],
+      title:
+        match[2] ||
+        originalTitle
+    };
+  }
+
+
+  match =
+    originalTitle.match(
+      /^модуль\s*(\d+)\s*[—–\-:]?\s*(.*)$/i
+    );
+
+
+  if (match) {
+
+    return {
+      badge: match[1],
+      title:
+        match[2] ||
+        originalTitle
+    };
+  }
+
+
+  /*
+    Если в названии вообще нет номера,
+    используем позицию после вводного.
+  */
+
+  return {
+    badge:
+      Math.max(
+        1,
+        Number(module.position)
+      ),
+
+    title:
+      originalTitle
+  };
+}
 function renderCourse(
   course,
   openModuleId = null
@@ -3953,6 +4029,9 @@ function renderCourse(
     course.modules
       .map(
         module => {
+          
+          const formattedModule =
+  formatModule(module);
 
           const isOpen =
             module.id ===
@@ -4018,7 +4097,7 @@ function renderCourse(
               <div class="module-header">
 
                 <div class="module-index">
-                  ${module.position + 1}
+                ${formattedModule.badge}
                 </div>
 
 
@@ -4026,7 +4105,7 @@ function renderCourse(
 
                   <div class="module-title">
                     ${safeText(
-                      module.title
+                    formattedModule.title
                     )}
                   </div>
 

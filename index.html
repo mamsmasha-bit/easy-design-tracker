@@ -1941,6 +1941,223 @@
     right: -38px;
   }
 }
+    /* =========================================
+   HOME — FINAL POLISH
+========================================= */
+
+/* Чуть компактнее hero */
+#homeScreen .home-hero {
+  min-height: 180px;
+}
+
+#homeScreen .home-hero-copy {
+  width: 55%;
+
+  padding:
+    17px
+    0
+    17px
+    18px;
+}
+
+#homeScreen .hero-chip {
+  margin-bottom: 8px;
+
+  padding:
+    5px
+    9px;
+}
+
+#homeScreen .hero-title {
+  max-width: 185px;
+
+  font-size: 22px;
+  line-height: .98;
+}
+
+#homeScreen .hero-copy {
+  max-width: 165px;
+
+  margin-top: 9px;
+
+  font-size: 9.5px;
+  line-height: 1.38;
+}
+
+#homeScreen .home-mascot {
+  width: 205px;
+
+  right: -27px;
+  bottom: -17px;
+}
+
+
+/* Статистика чуть компактнее */
+#homeScreen .stats {
+  margin-top: 8px;
+}
+
+#homeScreen .stat {
+  padding:
+    9px
+    5px;
+
+  border-radius: 17px;
+}
+
+#homeScreen .stat-icon {
+  margin-bottom: 3px;
+
+  font-size: 14px;
+}
+
+#homeScreen .stat-value {
+  font-size: 17px;
+}
+
+#homeScreen .stat-label {
+  margin-top: 3px;
+
+  font-size: 7.5px;
+}
+
+
+/* Заголовки блоков не спорят с hero */
+#homeScreen .section-heading {
+  margin:
+    17px
+    3px
+    9px;
+}
+
+#homeScreen .section-heading h2 {
+  font-size: 15px;
+  line-height: 1.15;
+  letter-spacing: -.25px;
+}
+
+
+/* Общий прогресс компактнее */
+#homeScreen .overall-card {
+  padding:
+    12px
+    14px;
+
+  border-radius: 19px;
+}
+
+#homeScreen .progress-label {
+  font-size: 11px;
+}
+
+#homeScreen .progress-percent {
+  font-size: 18px;
+}
+
+#homeScreen .progress-track {
+  height: 7px;
+
+  margin-top: 8px;
+}
+
+#homeScreen .progress-caption {
+  margin-top: 5px;
+
+  font-size: 8.5px;
+}
+
+
+/* Навигация ниже и визуально легче */
+.bottom-nav {
+  width:
+    calc(100% - 20px);
+
+  max-width: 500px;
+
+  bottom:
+    calc(
+      6px +
+      env(safe-area-inset-bottom)
+    );
+
+  padding:
+    5px;
+
+  border-radius: 21px;
+}
+
+.nav-item {
+  min-height: 47px;
+
+  padding:
+    5px
+    2px;
+}
+
+.nav-icon {
+  font-size: 16px;
+}
+
+.nav-label {
+  font-size: 7px;
+}
+
+
+/*
+  Контент никогда не заканчивается
+  под нижней навигацией.
+*/
+.app {
+  padding-bottom:
+    calc(
+      145px +
+      env(safe-area-inset-bottom)
+    );
+}
+
+
+/* Последний блок получает дополнительный воздух */
+#homeScreen .course-grid {
+  margin-bottom: 25px;
+}
+
+
+/* Маленькие телефоны */
+@media (max-width: 390px) {
+
+  #homeScreen .home-hero {
+    min-height: 175px;
+  }
+
+  #homeScreen .home-hero-copy {
+    width: 56%;
+
+    padding:
+      16px
+      0
+      16px
+      16px;
+  }
+
+  #homeScreen .hero-title {
+    max-width: 170px;
+
+    font-size: 21px;
+  }
+
+  #homeScreen .hero-copy {
+    max-width: 150px;
+
+    font-size: 9px;
+  }
+
+  #homeScreen .home-mascot {
+    width: 195px;
+
+    right: -30px;
+    bottom: -15px;
+  }
+}
   </style>
 </head>
 

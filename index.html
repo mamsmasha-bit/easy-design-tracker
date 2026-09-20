@@ -2158,6 +2158,250 @@
     bottom: -15px;
   }
 }
+    /* =========================================
+   COURSE — CLEAN MODULES & LESSONS
+========================================= */
+
+#courseScreen .section-heading {
+  margin:
+    20px
+    3px
+    10px;
+}
+
+#courseScreen .section-heading h2 {
+  font-size: 18px;
+  line-height: 1.1;
+}
+
+
+/* ПРОГРЕСС КУРСА */
+
+#courseScreen .course-progress-card {
+  padding: 14px 16px;
+  border-radius: 21px;
+}
+
+#courseScreen .course-progress-card .progress-label {
+  font-size: 12px;
+}
+
+#courseScreen .course-progress-card .progress-percent {
+  font-size: 22px;
+}
+
+#courseScreen .course-progress-card .progress-track {
+  height: 7px;
+  margin-top: 9px;
+}
+
+#courseScreen .course-progress-card .progress-caption {
+  margin-top: 6px;
+  font-size: 9px;
+}
+
+
+/* СПИСОК МОДУЛЕЙ */
+
+#courseScreen .modules {
+  gap: 8px;
+}
+
+#courseScreen .module {
+  border-radius: 19px;
+}
+
+#courseScreen .module-header {
+  grid-template-columns:
+    36px
+    minmax(0, 1fr)
+    30px;
+
+  gap: 10px;
+
+  padding:
+    11px
+    12px;
+}
+
+
+/* НОМЕР МОДУЛЯ */
+
+#courseScreen .module-index {
+  width: 36px;
+  height: 36px;
+
+  border-radius: 11px;
+
+  font-size: 16px;
+}
+
+
+/* НАЗВАНИЕ МОДУЛЯ */
+
+#courseScreen .module-title {
+  font-size: 11.5px;
+  line-height: 1.25;
+  font-weight: 900;
+
+  letter-spacing: -.1px;
+
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+}
+
+#courseScreen .module-meta {
+  margin-top: 4px;
+
+  font-size: 8.5px;
+  line-height: 1.2;
+}
+
+
+/* СТРЕЛКА */
+
+#courseScreen .module-arrow {
+  width: 30px;
+  height: 30px;
+
+  font-size: 12px;
+}
+
+
+/* ПРОГРЕСС МОДУЛЯ */
+
+#courseScreen .module-progress {
+  height: 3px;
+}
+
+
+/* УРОКИ */
+
+#courseScreen .lessons {
+  padding:
+    0
+    12px
+    7px;
+}
+
+#courseScreen .lesson {
+  grid-template-columns:
+    25px
+    minmax(0, 1fr);
+
+  gap: 10px;
+
+  padding:
+    11px
+    2px;
+}
+
+#courseScreen .lesson-check {
+  width: 25px;
+  height: 25px;
+
+  margin-top: 1px;
+
+  border-width: 2px;
+
+  font-size: 11px;
+}
+
+
+/* НОМЕР УРОКА */
+
+#courseScreen .lesson-number {
+  margin-bottom: 3px;
+
+  font-size: 7px;
+  line-height: 1;
+}
+
+
+/* НАЗВАНИЕ УРОКА */
+
+#courseScreen .lesson-title {
+  max-width: 100%;
+
+  font-size: 11.5px;
+  line-height: 1.35;
+  font-weight: 700;
+
+  letter-spacing: -.05px;
+
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+}
+
+
+/*
+  Выполненный урок:
+  НЕ перечёркиваем название.
+  Галочка уже достаточно хорошо показывает статус.
+*/
+
+#courseScreen .lesson.completed
+.lesson-title {
+  color: #96949b;
+
+  text-decoration: none;
+}
+
+#courseScreen .lesson.completed
+.lesson-number {
+  color: #b8b5bb;
+}
+
+
+/* Выполненная галочка */
+
+#courseScreen .lesson.completed
+.lesson-check {
+  border-color: var(--pink);
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--pink),
+      var(--pink-2)
+    );
+
+  color: #fff;
+}
+
+
+/* Узкие телефоны */
+
+@media (max-width: 390px) {
+
+  #courseScreen .module-header {
+    grid-template-columns:
+      34px
+      minmax(0, 1fr)
+      28px;
+
+    gap: 8px;
+
+    padding:
+      10px
+      11px;
+  }
+
+  #courseScreen .module-index {
+    width: 34px;
+    height: 34px;
+
+    font-size: 15px;
+  }
+
+  #courseScreen .module-title {
+    font-size: 11px;
+  }
+
+  #courseScreen .lesson-title {
+    font-size: 11px;
+  }
+}
   </style>
 </head>
 
@@ -3774,7 +4018,7 @@ function renderCourse(
               <div class="module-header">
 
                 <div class="module-index">
-                  ${module.position}
+                  ${module.position + 1}
                 </div>
 
 

@@ -2,9 +2,12 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
-  <title>Easy Design 2.0</title>
+  <title>Easy Design 2.0 | Трекер</title>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -18,24 +21,73 @@
       min-height: 100vh;
       font-family: Arial, sans-serif;
       background: #fafafa;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      color: #171717;
     }
 
     .app {
       width: 100%;
       max-width: 480px;
-      padding: 32px 24px;
-      text-align: center;
+      margin: 0 auto;
+      padding: 32px 22px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 26px 22px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
     }
 
     h1 {
-      margin-bottom: 12px;
+      margin: 0 0 10px;
+      font-size: 28px;
     }
 
-    p {
+    .subtitle {
+      margin: 0 0 26px;
+      color: #666;
       line-height: 1.5;
+    }
+
+    .status {
+      padding: 16px;
+      border-radius: 18px;
+      background: #f3f3f3;
+      line-height: 1.5;
+    }
+
+    .stats {
+      display: none;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .stat {
+      background: #f5f5f5;
+      border-radius: 18px;
+      padding: 16px 8px;
+      text-align: center;
+    }
+
+    .stat-value {
+      display: block;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #777;
+    }
+
+    .success {
+      background: #efffe5;
+    }
+
+    .error {
+      background: #fff0f0;
     }
   </style>
 </head>
@@ -43,30 +95,134 @@
 <body>
 
   <main class="app">
-    <h1>Easy Design 2.0 🍓</h1>
+    <div class="card">
 
-    <p id="hello">
-      Загружаем твой трекер...
-    </p>
+      <h1>Easy Design 2.0 🍓</h1>
+
+      <p class="subtitle" id="hello">
+        Проверяем твой профиль...
+      </p>
+
+      <div class="status" id="status">
+        Подключаемся к трекеру 💗
+      </div>
+
+      <div class="stats" id="stats">
+
+        <div class="stat">
+          <span class="stat-value" id="xp">0</span>
+          <span class="stat-label">XP</span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-value" id="strawberries">0</span>
+          <span class="stat-label">🍓 клубнички</span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-value" id="streak">0</span>
+          <span class="stat-label">🔥 серия</span>
+        </div>
+
+      </div>
+
+    </div>
   </main>
 
   <script>
+    const API_URL =
+      "https://rwteklmyawgtbvrgmesw.supabase.co/functions/v1/mini-app-api";
+
     const tg = window.Telegram?.WebApp;
 
-    if (tg) {
+    const hello = document.getElementById("hello");
+    const status = document.getElementById("status");
+    const stats = document.getElementById("stats");
+
+    async function startApp() {
+
+      if (!tg) {
+        status.textContent =
+          "Открой трекер через Telegram 💗";
+
+        status.classList.add("error");
+        return;
+      }
+
       tg.ready();
       tg.expand();
 
-      const user = tg.initDataUnsafe?.user;
+      const telegramUser =
+        tg.initDataUnsafe?.user;
 
-      if (user?.first_name) {
-        document.getElementById("hello").textContent =
-          `Привет, ${user.first_name}! Твой трекер почти готов 💗`;
-      } else {
-        document.getElementById("hello").textContent =
-          "Привет! Твой трекер почти готов 💗";
+      if (telegramUser?.first_name) {
+        hello.textContent =
+          `Привет, ${telegramUser.first_name}! Проверяем твой профиль 🍓`;
+      }
+
+      // Если страницу открыли просто по ссылке в браузере,
+      // Telegram initData отсутствует.
+      if (!tg.initData) {
+        status.textContent =
+          "Этот трекер открывается только через бот EASY DESIGN 💗";
+
+        status.classList.add("error");
+        return;
+      }
+
+      try {
+
+        const response = await fetch(API_URL, {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+            initData: tg.initData
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.ok) {
+          throw new Error(
+            data.error || "Не удалось открыть профиль"
+          );
+        }
+
+        hello.textContent =
+          `Привет, ${data.user.firstName}! 🍓✨`;
+
+        status.textContent =
+          "Профиль найден! Твой трекер подключён 💗";
+
+        status.classList.add("success");
+
+        document.getElementById("xp").textContent =
+          data.user.xp ?? 0;
+
+        document.getElementById("strawberries").textContent =
+          data.user.strawberries ?? 0;
+
+        document.getElementById("streak").textContent =
+          data.user.streak ?? 0;
+
+        stats.style.display = "grid";
+
+      } catch (error) {
+
+        console.error(error);
+
+        status.textContent =
+          "Не удалось загрузить профиль. Попробуй открыть трекер заново через бота 💗";
+
+        status.classList.add("error");
       }
     }
+
+    startApp();
   </script>
 
 </body>

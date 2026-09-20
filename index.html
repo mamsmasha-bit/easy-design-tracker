@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-
   <title>Easy Design 2.0 | Трекер</title>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -13,11 +12,13 @@
       --pink: #ff3fa4;
       --pink-soft: #ffe5f3;
       --lime: #c8ff45;
-      --lime-soft: #efffc8;
+      --lime-soft: #f0ffc9;
+      --purple-soft: #eee7ff;
+      --yellow-soft: #fff1bd;
       --black: #171717;
       --gray: #777;
-      --light: #f7f7f7;
-      --white: #ffffff;
+      --white: #fff;
+      --bg: #fafafa;
     }
 
     * {
@@ -30,9 +31,9 @@
       min-height: 100vh;
       font-family: Arial, Helvetica, sans-serif;
       background:
-        radial-gradient(circle at 100% 0%, #ffe5f3 0, transparent 35%),
+        radial-gradient(circle at 100% 0%, #ffe5f3 0, transparent 32%),
         radial-gradient(circle at 0% 100%, #efffc8 0, transparent 35%),
-        #fafafa;
+        var(--bg);
       color: var(--black);
     }
 
@@ -45,14 +46,33 @@
       max-width: 520px;
       min-height: 100vh;
       margin: 0 auto;
-      padding:
-        22px
-        18px
-        calc(30px + env(safe-area-inset-bottom));
+      padding: 22px 18px calc(32px + env(safe-area-inset-bottom));
     }
 
     .hidden {
       display: none !important;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 27px;
+    }
+
+    .brand-name {
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .brand-badge {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--lime);
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
     }
 
     /* LOADER */
@@ -65,47 +85,20 @@
       text-align: center;
     }
 
-    .loader-box {
-      max-width: 300px;
-    }
-
     .loader-emoji {
-      font-size: 48px;
-      margin-bottom: 18px;
+      font-size: 50px;
+      margin-bottom: 15px;
     }
 
     .loader-title {
       font-size: 24px;
-      font-weight: 800;
-      margin-bottom: 8px;
+      font-weight: 900;
     }
 
     .loader-text {
-      color: var(--gray);
-      line-height: 1.5;
-    }
-
-    /* HEADER */
-
-    .brand {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 28px;
-    }
-
-    .brand-name {
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-    }
-
-    .brand-badge {
-      padding: 8px 12px;
-      background: var(--lime);
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 800;
+      margin-top: 8px;
+      color: #777;
+      line-height: 1.45;
     }
 
     /* ONBOARDING */
@@ -118,20 +111,18 @@
       background: var(--pink-soft);
       color: #c51670;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     h1 {
       margin: 0;
-      max-width: 430px;
       font-size: clamp(34px, 9vw, 48px);
-      line-height: 0.98;
+      line-height: .98;
       letter-spacing: -2px;
     }
 
     .lead {
       margin: 18px 0 28px;
-      max-width: 420px;
       color: #606060;
       font-size: 16px;
       line-height: 1.5;
@@ -149,17 +140,9 @@
       overflow: hidden;
       border: 2px solid transparent;
       border-radius: 24px;
-      background: var(--white);
+      background: white;
       box-shadow: 0 8px 30px rgba(0,0,0,.055);
       cursor: pointer;
-      transition:
-        transform .15s ease,
-        border-color .15s ease,
-        background .15s ease;
-    }
-
-    .course-card:active {
-      transform: scale(.985);
     }
 
     .course-card.selected {
@@ -178,16 +161,14 @@
 
     .course-number {
       margin-bottom: 8px;
-      color: #9a9a9a;
+      color: #999;
       font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
+      font-weight: 800;
     }
 
     .course-title {
       font-size: 23px;
       font-weight: 900;
-      letter-spacing: -0.8px;
     }
 
     .course-check {
@@ -197,10 +178,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid #dedede;
+      border: 2px solid #ddd;
       border-radius: 50%;
       background: white;
-      font-size: 17px;
+      color: transparent;
       font-weight: 900;
     }
 
@@ -217,54 +198,27 @@
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      opacity: .8;
     }
 
-    .figma .course-decoration {
-      background: var(--pink-soft);
-    }
-
-    .canva .course-decoration {
-      background: var(--lime-soft);
-    }
-
-    .neuro .course-decoration {
-      background: #e9e2ff;
-    }
-
-    .vector .course-decoration {
-      background: #fff0bc;
-    }
+    .figma .course-decoration { background: var(--pink-soft); }
+    .canva .course-decoration { background: var(--lime-soft); }
+    .neuro .course-decoration { background: var(--purple-soft); }
+    .vector .course-decoration { background: var(--yellow-soft); }
 
     .save-button {
       width: 100%;
       margin-top: 20px;
-      padding: 19px 20px;
+      padding: 19px;
       border: 0;
       border-radius: 20px;
       background: var(--black);
       color: white;
       font-size: 16px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: opacity .2s ease, transform .15s ease;
-    }
-
-    .save-button:active {
-      transform: scale(.985);
+      font-weight: 900;
     }
 
     .save-button:disabled {
       opacity: .35;
-      cursor: default;
-    }
-
-    .hint {
-      margin: 12px 10px 0;
-      color: #999;
-      font-size: 12px;
-      text-align: center;
-      line-height: 1.4;
     }
 
     /* DASHBOARD */
@@ -281,7 +235,8 @@
     .hello-small {
       margin-bottom: 7px;
       color: #cfcfcf;
-      font-size: 14px;
+      font-size: 12px;
+      font-weight: 800;
     }
 
     .hello-name {
@@ -302,10 +257,10 @@
 
     .strawberry-big {
       position: absolute;
-      right: 20px;
-      bottom: 8px;
+      right: 18px;
+      bottom: 6px;
       font-size: 58px;
-      transform: rotate(9deg);
+      transform: rotate(8deg);
     }
 
     .stats {
@@ -333,14 +288,12 @@
     .stat-label {
       color: #777;
       font-size: 11px;
-      line-height: 1.2;
     }
 
     .section-title {
       margin: 30px 2px 15px;
       font-size: 22px;
       font-weight: 900;
-      letter-spacing: -.7px;
     }
 
     .my-courses {
@@ -352,16 +305,17 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      min-height: 82px;
+      min-height: 84px;
       padding: 18px 19px;
       border-radius: 22px;
       background: white;
       box-shadow: 0 7px 24px rgba(0,0,0,.04);
+      cursor: pointer;
     }
 
     .my-course-title {
       font-size: 18px;
-      font-weight: 850;
+      font-weight: 900;
     }
 
     .my-course-status {
@@ -371,25 +325,223 @@
     }
 
     .arrow {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
+      flex: 0 0 38px;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 50%;
       background: var(--lime);
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 900;
     }
 
-    .footer-note {
-      margin-top: 24px;
-      padding: 18px;
-      border-radius: 20px;
-      background: var(--pink-soft);
-      color: #a5125b;
+    /* COURSE SCREEN */
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 22px;
+      padding: 10px 14px;
+      border: 0;
+      border-radius: 999px;
+      background: white;
+      box-shadow: 0 5px 20px rgba(0,0,0,.05);
       font-size: 13px;
-      line-height: 1.45;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .course-hero {
+      padding: 24px;
+      border-radius: 30px;
+      background: var(--black);
+      color: white;
+    }
+
+    .course-hero-label {
+      margin-bottom: 8px;
+      color: var(--lime);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .5px;
+    }
+
+    .course-hero-title {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1;
+      letter-spacing: -1.3px;
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .progress-number {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .progress-percent {
+      font-size: 31px;
+      font-weight: 900;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      margin-top: 12px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #3c3c3c;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--lime);
+      transition: width .3s ease;
+    }
+
+    .modules {
+      display: grid;
+      gap: 13px;
+      margin-top: 18px;
+    }
+
+    .module {
+      overflow: hidden;
+      border-radius: 25px;
+      background: white;
+      box-shadow: 0 7px 25px rgba(0,0,0,.045);
+    }
+
+    .module-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 20px;
+      cursor: pointer;
+    }
+
+    .module-number {
+      margin-bottom: 6px;
+      color: #999;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .module-title {
+      font-size: 17px;
+      line-height: 1.25;
+      font-weight: 900;
+    }
+
+    .module-meta {
+      margin-top: 7px;
+      color: #888;
+      font-size: 12px;
+    }
+
+    .module-toggle {
+      width: 35px;
+      height: 35px;
+      flex: 0 0 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--lime-soft);
+      font-size: 18px;
+      transition: transform .2s ease;
+    }
+
+    .module.open .module-toggle {
+      transform: rotate(180deg);
+    }
+
+    .module-progress {
+      height: 5px;
+      background: #eee;
+    }
+
+    .module-progress-fill {
+      height: 100%;
+      background: var(--pink);
+    }
+
+    .lessons {
+      display: none;
+      padding: 0 15px 15px;
+    }
+
+    .module.open .lessons {
+      display: block;
+    }
+
+    .lesson {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 5px;
+      border-top: 1px solid #eee;
+    }
+
+    .lesson-check {
+      width: 26px;
+      height: 26px;
+      flex: 0 0 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+      border: 2px solid #ddd;
+      border-radius: 50%;
+      background: white;
+      color: transparent;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .lesson.completed .lesson-check {
+      border-color: var(--pink);
+      background: var(--pink);
+      color: white;
+    }
+
+    .lesson-number {
+      margin-bottom: 4px;
+      color: #999;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .lesson-title {
+      font-size: 14px;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .lesson.completed .lesson-title {
+      color: #888;
+      text-decoration: line-through;
+    }
+
+    .course-loading {
+      padding: 40px 20px;
+      text-align: center;
+      color: #777;
     }
 
     /* ERROR */
@@ -408,20 +560,14 @@
 
 <main class="app">
 
-  <!-- ЗАГРУЗКА -->
-
   <section id="loadingScreen" class="loader-screen">
-    <div class="loader-box">
+    <div>
       <div class="loader-emoji">🍓</div>
       <div class="loader-title">Собираем твой трекер</div>
-      <div class="loader-text">
-        Ещё секундочку — проверяем профиль и прогресс.
-      </div>
+      <div class="loader-text">Проверяем профиль и прогресс.</div>
     </div>
   </section>
 
-
-  <!-- ПЕРВЫЙ ВХОД -->
 
   <section id="onboardingScreen" class="hidden">
 
@@ -446,77 +592,55 @@
       <div class="course-card figma" data-course="figma">
         <div class="course-top">
           <div>
-            <div class="course-number">направление 01</div>
+            <div class="course-number">НАПРАВЛЕНИЕ 01</div>
             <div class="course-title">FIGMA 2.0</div>
           </div>
-
           <div class="course-check">✓</div>
         </div>
-
         <div class="course-decoration"></div>
       </div>
-
 
       <div class="course-card canva" data-course="canva">
         <div class="course-top">
           <div>
-            <div class="course-number">направление 02</div>
+            <div class="course-number">НАПРАВЛЕНИЕ 02</div>
             <div class="course-title">CANVA 2.0</div>
           </div>
-
           <div class="course-check">✓</div>
         </div>
-
         <div class="course-decoration"></div>
       </div>
-
 
       <div class="course-card neuro" data-course="neuro">
         <div class="course-top">
           <div>
-            <div class="course-number">направление 03</div>
+            <div class="course-number">НАПРАВЛЕНИЕ 03</div>
             <div class="course-title">НЕЙРО 2.0</div>
           </div>
-
           <div class="course-check">✓</div>
         </div>
-
         <div class="course-decoration"></div>
       </div>
-
 
       <div class="course-card vector" data-course="vector">
         <div class="course-top">
           <div>
-            <div class="course-number">направление 04</div>
+            <div class="course-number">НАПРАВЛЕНИЕ 04</div>
             <div class="course-title">ВЕКТОР 2.0</div>
           </div>
-
           <div class="course-check">✓</div>
         </div>
-
         <div class="course-decoration"></div>
       </div>
 
     </div>
 
-    <button
-      id="saveCoursesButton"
-      class="save-button"
-      disabled
-    >
+    <button id="saveCoursesButton" class="save-button" disabled>
       Выбери хотя бы одно направление
     </button>
 
-    <div class="hint">
-      Потом мы добавим возможность изменить направления,
-      если ты докупишь ещё один курс.
-    </div>
-
   </section>
 
-
-  <!-- ГЛАВНЫЙ ЭКРАН -->
 
   <section id="dashboardScreen" class="hidden">
 
@@ -526,14 +650,8 @@
     </header>
 
     <div class="hello-card">
-
-      <div class="hello-small">
-        ТВОЙ ЛИЧНЫЙ ТРЕКЕР
-      </div>
-
-      <h2 class="hello-name" id="dashboardName">
-        Привет!
-      </h2>
+      <div class="hello-small">ТВОЙ ЛИЧНЫЙ ТРЕКЕР</div>
+      <h2 class="hello-name" id="dashboardName">Привет!</h2>
 
       <p class="hello-copy">
         Маленькие шаги тоже считаются.
@@ -541,12 +659,9 @@
       </p>
 
       <div class="strawberry-big">🍓</div>
-
     </div>
 
-
     <div class="stats">
-
       <div class="stat">
         <span id="xp" class="stat-value">0</span>
         <span class="stat-label">XP</span>
@@ -561,27 +676,25 @@
         <span id="streak" class="stat-value">0</span>
         <span class="stat-label">🔥 серия</span>
       </div>
-
     </div>
 
-
-    <div class="section-title">
-      Мои направления
-    </div>
+    <div class="section-title">Мои направления</div>
 
     <div id="myCourses" class="my-courses"></div>
-
-
-    <div class="footer-note">
-      💗 Скоро здесь появится твой прогресс по каждому
-      модулю, выполненные уроки, достижения и реакции
-      нашего маскота.
-    </div>
 
   </section>
 
 
-  <!-- ОШИБКА -->
+  <section id="courseScreen" class="hidden">
+
+    <button id="backButton" class="back-button">
+      ← Назад к направлениям
+    </button>
+
+    <div id="courseContent"></div>
+
+  </section>
+
 
   <section id="errorScreen" class="hidden">
 
@@ -600,172 +713,378 @@
 
 <script>
 
-  const API_URL =
-    "https://rwteklmyawgtbvrgmesw.supabase.co/functions/v1/mini-app-api";
+const API_URL =
+  "https://rwteklmyawgtbvrgmesw.supabase.co/functions/v1/mini-app-api";
 
-  const tg = window.Telegram?.WebApp;
+const tg = window.Telegram?.WebApp;
 
-  const loadingScreen =
-    document.getElementById("loadingScreen");
+const loadingScreen =
+  document.getElementById("loadingScreen");
 
-  const onboardingScreen =
-    document.getElementById("onboardingScreen");
+const onboardingScreen =
+  document.getElementById("onboardingScreen");
 
-  const dashboardScreen =
-    document.getElementById("dashboardScreen");
+const dashboardScreen =
+  document.getElementById("dashboardScreen");
 
-  const errorScreen =
-    document.getElementById("errorScreen");
+const courseScreen =
+  document.getElementById("courseScreen");
 
-  const errorText =
-    document.getElementById("errorText");
+const errorScreen =
+  document.getElementById("errorScreen");
 
-  const saveCoursesButton =
-    document.getElementById("saveCoursesButton");
+const errorText =
+  document.getElementById("errorText");
 
-  const selectedCourses = new Set();
+const saveCoursesButton =
+  document.getElementById("saveCoursesButton");
 
-  let currentProfile = null;
+const courseContent =
+  document.getElementById("courseContent");
 
+const selectedCourses = new Set();
 
-  const courseNames = {
-    figma: "FIGMA 2.0",
-    canva: "CANVA 2.0",
-    neuro: "НЕЙРО 2.0",
-    vector: "ВЕКТОР 2.0"
-  };
+let currentProfile = null;
 
 
-  function showOnly(screen) {
+const courseNames = {
+  figma: "FIGMA 2.0",
+  canva: "CANVA 2.0",
+  neuro: "НЕЙРО 2.0",
+  vector: "ВЕКТОР 2.0"
+};
 
-    loadingScreen.classList.add("hidden");
-    onboardingScreen.classList.add("hidden");
-    dashboardScreen.classList.add("hidden");
-    errorScreen.classList.add("hidden");
 
-    screen.classList.remove("hidden");
+function showOnly(screen) {
+
+  loadingScreen.classList.add("hidden");
+  onboardingScreen.classList.add("hidden");
+  dashboardScreen.classList.add("hidden");
+  courseScreen.classList.add("hidden");
+  errorScreen.classList.add("hidden");
+
+  screen.classList.remove("hidden");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "instant"
+  });
+}
+
+
+function showError(message) {
+
+  errorText.textContent = message;
+  showOnly(errorScreen);
+}
+
+
+async function apiRequest(payload) {
+
+  const response = await fetch(API_URL, {
+
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify({
+      initData: tg.initData,
+      ...payload
+    })
+  });
+
+  const data = await response.json();
+
+  if (!response.ok || !data.ok) {
+    throw new Error(
+      data.error || "Ошибка загрузки"
+    );
   }
 
-
-  function showError(message) {
-
-    errorText.textContent = message;
-
-    showOnly(errorScreen);
-  }
+  return data;
+}
 
 
-  async function apiRequest(payload) {
+function renderDashboard(profile) {
 
-    const response = await fetch(API_URL, {
+  currentProfile = profile;
 
-      method: "POST",
+  document.getElementById(
+    "dashboardName"
+  ).textContent =
+    `Привет, ${profile.user.firstName}!`;
 
-      headers: {
-        "Content-Type": "application/json"
-      },
+  document.getElementById("xp").textContent =
+    profile.user.xp ?? 0;
 
-      body: JSON.stringify({
-        initData: tg.initData,
-        ...payload
-      })
+  document.getElementById("strawberries").textContent =
+    profile.user.strawberries ?? 0;
 
-    });
-
-    const data = await response.json();
-
-    if (!response.ok || !data.ok) {
-      throw new Error(
-        data.error || "Ошибка загрузки"
-      );
-    }
-
-    return data;
-  }
+  document.getElementById("streak").textContent =
+    profile.user.streak ?? 0;
 
 
-  function renderDashboard(profile) {
+  const container =
+    document.getElementById("myCourses");
 
-    currentProfile = profile;
-
-    document.getElementById(
-      "dashboardName"
-    ).textContent =
-      `Привет, ${profile.user.firstName}!`;
-
-    document.getElementById(
-      "xp"
-    ).textContent =
-      profile.user.xp ?? 0;
-
-    document.getElementById(
-      "strawberries"
-    ).textContent =
-      profile.user.strawberries ?? 0;
-
-    document.getElementById(
-      "streak"
-    ).textContent =
-      profile.user.streak ?? 0;
+  container.innerHTML = "";
 
 
-    const container =
-      document.getElementById("myCourses");
+  profile.courses.forEach((courseCode) => {
 
-    container.innerHTML = "";
+    const item =
+      document.createElement("div");
 
+    item.className = "my-course";
 
-    profile.courses.forEach((courseCode) => {
-
-      const item =
-        document.createElement("div");
-
-      item.className = "my-course";
-
-      item.innerHTML = `
-        <div>
-          <div class="my-course-title">
-            ${courseNames[courseCode] || courseCode}
-          </div>
-
-          <div class="my-course-status">
-            Скоро здесь будет твой прогресс
-          </div>
+    item.innerHTML = `
+      <div>
+        <div class="my-course-title">
+          ${courseNames[courseCode] || courseCode}
         </div>
 
-        <div class="arrow">→</div>
-      `;
+        <div class="my-course-status">
+          Открыть программу и прогресс
+        </div>
+      </div>
 
-      container.appendChild(item);
+      <div class="arrow">→</div>
+    `;
 
+    item.addEventListener(
+      "click",
+      () => openCourse(courseCode)
+    );
+
+    container.appendChild(item);
+  });
+
+
+  showOnly(dashboardScreen);
+}
+
+
+function renderOnboarding(profile) {
+
+  currentProfile = profile;
+
+  document.getElementById(
+    "onboardingTitle"
+  ).textContent =
+    `Привет, ${profile.user.firstName}! Давай настроим твой трекер`;
+
+  showOnly(onboardingScreen);
+}
+
+
+/* =========================
+   ЭКРАН КУРСА
+========================= */
+
+async function openCourse(courseCode) {
+
+  showOnly(courseScreen);
+
+  courseContent.innerHTML = `
+    <div class="course-loading">
+      <div style="font-size:42px; margin-bottom:12px;">🍓</div>
+      Загружаем программу...
+    </div>
+  `;
+
+  try {
+
+    const data = await apiRequest({
+      action: "course",
+      courseCode
     });
 
+    renderCourse(data.course);
 
-    showOnly(dashboardScreen);
+  } catch (error) {
+
+    console.error(error);
+
+    courseContent.innerHTML = `
+      <div class="error-box">
+        Не удалось загрузить программу.
+        Вернись назад и попробуй ещё раз 💗
+      </div>
+    `;
   }
+}
 
 
-  function renderOnboarding(profile) {
+function renderCourse(course) {
 
-    currentProfile = profile;
+  const modulesHTML =
+    course.modules.map((module) => {
 
-    const name =
-      profile.user.firstName || "";
+      const lessonsHTML =
+        module.lessons.map((lesson) => {
 
-    document.getElementById(
-      "onboardingTitle"
-    ).textContent =
-      `Привет, ${name}! Давай настроим твой трекер`;
+          return `
+            <div
+              class="lesson ${lesson.completed ? "completed" : ""}"
+              data-lesson-id="${lesson.id}"
+            >
 
-    showOnly(onboardingScreen);
-  }
+              <div class="lesson-check">
+                ✓
+              </div>
+
+              <div>
+                <div class="lesson-number">
+                  УРОК ${lesson.position}
+                </div>
+
+                <div class="lesson-title">
+                  ${escapeHTML(lesson.title)}
+                </div>
+              </div>
+
+            </div>
+          `;
+
+        }).join("");
+
+
+      return `
+        <div class="module">
+
+          <div class="module-header">
+
+            <div>
+              <div class="module-number">
+                МОДУЛЬ ${module.position}
+              </div>
+
+              <div class="module-title">
+                ${escapeHTML(module.title)}
+              </div>
+
+              <div class="module-meta">
+                ${module.completedLessons}
+                из
+                ${module.totalLessons}
+                уроков ·
+                ${module.progress}%
+              </div>
+            </div>
+
+            <div class="module-toggle">
+              ↓
+            </div>
+
+          </div>
+
+          <div class="module-progress">
+            <div
+              class="module-progress-fill"
+              style="width:${module.progress}%"
+            ></div>
+          </div>
+
+          <div class="lessons">
+            ${lessonsHTML}
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+
+
+  courseContent.innerHTML = `
+
+    <div class="course-hero">
+
+      <div class="course-hero-label">
+        МОЁ НАПРАВЛЕНИЕ
+      </div>
+
+      <h1 class="course-hero-title">
+        ${escapeHTML(course.title)}
+      </h1>
+
+      <div class="progress-row">
+
+        <div class="progress-number">
+          ${course.completedLessons}
+          из
+          ${course.totalLessons}
+          уроков
+        </div>
+
+        <div class="progress-percent">
+          ${course.progress}%
+        </div>
+
+      </div>
+
+      <div class="progress-track">
+        <div
+          class="progress-fill"
+          style="width:${course.progress}%"
+        ></div>
+      </div>
+
+    </div>
+
+    <div class="section-title">
+      Твоя программа
+    </div>
+
+    <div class="modules">
+      ${modulesHTML}
+    </div>
+  `;
 
 
   document
-    .querySelectorAll(".course-card")
-    .forEach((card) => {
+    .querySelectorAll(".module-header")
+    .forEach((header) => {
 
-      card.addEventListener("click", () => {
+      header.addEventListener(
+        "click",
+        () => {
+
+          const module =
+            header.closest(".module");
+
+          module.classList.toggle("open");
+        }
+      );
+
+    });
+}
+
+
+function escapeHTML(value) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent =
+    value ?? "";
+
+  return div.innerHTML;
+}
+
+
+/* =========================
+   ВЫБОР НАПРАВЛЕНИЙ
+========================= */
+
+document
+  .querySelectorAll(".course-card")
+  .forEach((card) => {
+
+    card.addEventListener(
+      "click",
+      () => {
 
         const course =
           card.dataset.course;
@@ -779,7 +1098,6 @@
 
           selectedCourses.add(course);
           card.classList.add("selected");
-
         }
 
 
@@ -790,7 +1108,7 @@
           saveCoursesButton.textContent =
             selectedCourses.size === 4
               ? "Собрать мой трекер — ALL IN ✨"
-              : `Собрать мой трекер →`;
+              : "Собрать мой трекер →";
 
         } else {
 
@@ -800,115 +1118,127 @@
             "Выбери хотя бы одно направление";
         }
 
-      });
-
-    });
-
-
-  saveCoursesButton.addEventListener(
-    "click",
-    async () => {
-
-      if (selectedCourses.size === 0) {
-        return;
       }
+    );
 
-      saveCoursesButton.disabled = true;
-      saveCoursesButton.textContent =
-        "Собираем твой трекер... 🍓";
-
-      try {
-
-        await apiRequest({
-          action: "save_courses",
-          courses: [...selectedCourses]
-        });
+  });
 
 
-        const updatedProfile =
-          await apiRequest({
-            action: "profile"
-          });
+saveCoursesButton.addEventListener(
+  "click",
+  async () => {
 
-
-        renderDashboard(updatedProfile);
-
-      } catch (error) {
-
-        console.error(error);
-
-        saveCoursesButton.disabled = false;
-        saveCoursesButton.textContent =
-          "Попробовать ещё раз";
-
-        if (tg?.HapticFeedback) {
-          tg.HapticFeedback.notificationOccurred(
-            "error"
-          );
-        }
-      }
-
-    }
-  );
-
-
-  async function startApp() {
-
-    if (!tg) {
-
-      showError(
-        "Этот трекер открывается только через Telegram 💗"
-      );
-
+    if (selectedCourses.size === 0) {
       return;
     }
 
+    saveCoursesButton.disabled = true;
 
-    tg.ready();
-    tg.expand();
-
-
-    if (!tg.initData) {
-
-      showError(
-        "Открой трекер через бот EASY DESIGN 💗"
-      );
-
-      return;
-    }
-
+    saveCoursesButton.textContent =
+      "Собираем твой трекер... 🍓";
 
     try {
 
-      const profile =
+      await apiRequest({
+        action: "save_courses",
+        courses: [...selectedCourses]
+      });
+
+      const updatedProfile =
         await apiRequest({
           action: "profile"
         });
 
-
-      if (profile.needsCourseSelection) {
-
-        renderOnboarding(profile);
-
-      } else {
-
-        renderDashboard(profile);
-
-      }
+      renderDashboard(updatedProfile);
 
     } catch (error) {
 
       console.error(error);
 
-      showError(
-        "Не удалось открыть твой профиль. Закрой трекер и запусти его ещё раз через бот EASY DESIGN 💗"
-      );
-    }
+      saveCoursesButton.disabled = false;
 
+      saveCoursesButton.textContent =
+        "Попробовать ещё раз";
+    }
+  }
+);
+
+
+/* =========================
+   КНОПКА НАЗАД
+========================= */
+
+document
+  .getElementById("backButton")
+  .addEventListener(
+    "click",
+    () => {
+
+      if (currentProfile) {
+        renderDashboard(currentProfile);
+      }
+    }
+  );
+
+
+/* =========================
+   СТАРТ
+========================= */
+
+async function startApp() {
+
+  if (!tg) {
+
+    showError(
+      "Этот трекер открывается только через Telegram 💗"
+    );
+
+    return;
+  }
+
+  tg.ready();
+  tg.expand();
+
+
+  if (!tg.initData) {
+
+    showError(
+      "Открой трекер через бот EASY DESIGN 💗"
+    );
+
+    return;
   }
 
 
-  startApp();
+  try {
+
+    const profile =
+      await apiRequest({
+        action: "profile"
+      });
+
+
+    if (profile.needsCourseSelection) {
+
+      renderOnboarding(profile);
+
+    } else {
+
+      renderDashboard(profile);
+    }
+
+  } catch (error) {
+
+    console.error(error);
+
+    showError(
+      "Не удалось открыть твой профиль. Закрой трекер и запусти его ещё раз через бот EASY DESIGN 💗"
+    );
+  }
+}
+
+
+startApp();
 
 </script>
 

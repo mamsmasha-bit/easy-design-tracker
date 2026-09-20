@@ -3951,10 +3951,12 @@ function formatModule(module) {
 
 
   /*
-    Вводный модуль не нумеруем.
+    Вводный модуль — без нумерации.
+    В цветном бейдже оставляем только ★,
+    чтобы карточка сохраняла красивое выравнивание.
   */
   if (
-    /вводн/i.test(originalTitle)
+    /^вводн/i.test(originalTitle)
   ) {
 
     return {
@@ -3965,11 +3967,10 @@ function formatModule(module) {
 
 
   /*
-    Поддерживаем оба варианта:
+    Вариант из базы:
     "1 МОДУЛЬ — ТЕОРИЯ"
-    "МОДУЛЬ 1 — ТЕОРИЯ"
+    "2 МОДУЛЬ — ЗНАКОМСТВО..."
   */
-
   let match =
     originalTitle.match(
       /^(\d+)\s*модуль\s*[—–\-:]?\s*(.*)$/i
@@ -3981,12 +3982,17 @@ function formatModule(module) {
     return {
       badge: match[1],
       title:
-        match[2] ||
+        match[2].trim() ||
         originalTitle
     };
   }
 
 
+  /*
+    Второй вариант из базы:
+    "МОДУЛЬ 1 — БАЗОВЫЙ"
+    "МОДУЛЬ 2 — ..."
+  */
   match =
     originalTitle.match(
       /^модуль\s*(\d+)\s*[—–\-:]?\s*(.*)$/i
@@ -3998,28 +4004,31 @@ function formatModule(module) {
     return {
       badge: match[1],
       title:
-        match[2] ||
+        match[2].trim() ||
         originalTitle
     };
   }
 
 
   /*
-    Если в названии вообще нет номера,
-    используем позицию после вводного.
+    Запасной вариант:
+    если в названии модуля номера нет,
+    используем его реальную position без +1.
   */
-
   return {
     badge:
-      Math.max(
-        1,
-        Number(module.position)
+      String(
+        Math.max(
+          1,
+          Number(module.position) || 1
+        )
       ),
 
     title:
       originalTitle
   };
 }
+
 function renderCourse(
   course,
   openModuleId = null

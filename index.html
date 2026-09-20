@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1, viewport-fit=cover"
@@ -13,21 +14,37 @@
 
   <style>
     :root {
-      --pink: #ff3fa4;
-      --pink-soft: #ffe5f3;
-      --lime: #c8ff45;
-      --lime-soft: #f1ffcf;
-      --purple-soft: #eee7ff;
-      --yellow-soft: #fff1bd;
+      --pink: #ff2f92;
+      --pink-2: #ff5ca8;
+      --pink-soft: #ffe8f3;
 
-      --black: #171717;
-      --text: #202020;
-      --gray: #747474;
-      --light-gray: #a0a0a0;
-      --line: #ededed;
+      --lime: #baff35;
+      --lime-soft: #efffcf;
+
+      --purple: #7b42e8;
+      --purple-soft: #eee7ff;
+
+      --yellow: #ffc83d;
+      --yellow-soft: #fff3c9;
+
+      --green: #6bcf35;
+
+      --text: #171717;
+      --muted: #777985;
+      --soft-muted: #a5a5ad;
 
       --white: #ffffff;
-      --bg: #fafafa;
+      --line: #eeeeef;
+
+      --bg: #fff8fb;
+
+      --shadow:
+        0 10px 35px
+        rgba(65, 37, 51, .07);
+
+      --shadow-pink:
+        0 12px 30px
+        rgba(255, 47, 146, .18);
     }
 
     * {
@@ -53,13 +70,13 @@
       background:
         radial-gradient(
           circle at 100% 0%,
-          #ffe6f3 0,
-          transparent 32%
+          rgba(255, 208, 230, .7),
+          transparent 28%
         ),
         radial-gradient(
-          circle at 0% 100%,
-          #efffc8 0,
-          transparent 35%
+          circle at 0% 55%,
+          rgba(213, 255, 164, .38),
+          transparent 25%
         ),
         var(--bg);
 
@@ -69,6 +86,11 @@
 
     button {
       font: inherit;
+    }
+
+    button,
+    .clickable {
+      cursor: pointer;
     }
 
     .hidden {
@@ -83,69 +105,66 @@
       margin: 0 auto;
 
       padding:
-        22px
         18px
-        calc(34px + env(safe-area-inset-bottom));
+        16px
+        calc(104px + env(safe-area-inset-bottom));
     }
 
     /* =========================
-       ОБЩИЕ ЭЛЕМЕНТЫ
+       TYPOGRAPHY
     ========================= */
 
-    .brand {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      gap: 16px;
-
-      margin-bottom: 26px;
-    }
-
-    .brand-name {
-      min-width: 0;
-
-      font-size: 15px;
-      line-height: 1.2;
-      font-weight: 900;
-
-      letter-spacing: -.2px;
-    }
-
-    .brand-badge {
-      flex: 0 0 auto;
-
-      padding: 8px 12px;
-
-      border-radius: 999px;
-
-      background: var(--lime);
+    .eyebrow {
+      color: var(--pink);
 
       font-size: 11px;
       line-height: 1;
       font-weight: 900;
 
-      white-space: nowrap;
+      letter-spacing: .6px;
+      text-transform: uppercase;
     }
 
-    .section-title {
-      margin:
-        30px
-        2px
-        15px;
+    .screen-title {
+      margin: 0;
 
-      font-size: 22px;
-      line-height: 1.12;
+      font-size: 28px;
+      line-height: 1.03;
       font-weight: 900;
 
-      letter-spacing: -.5px;
+      letter-spacing: -1px;
+
+      text-wrap: balance;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 15px;
+
+      margin:
+        27px
+        3px
+        13px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+
+      font-size: 19px;
+      line-height: 1.1;
+      font-weight: 900;
+
+      letter-spacing: -.45px;
     }
 
     /* =========================
        LOADER
     ========================= */
 
-    .loader-screen {
+    .loading-screen {
       min-height: 75vh;
 
       display: flex;
@@ -155,359 +174,279 @@
       text-align: center;
     }
 
-    .loader-inner {
-      max-width: 290px;
+    .loading-mascot {
+      width: 190px;
+      max-width: 65%;
+
+      margin-bottom: 10px;
     }
 
-    .loader-emoji {
-      margin-bottom: 14px;
-
-      font-size: 50px;
-    }
-
-    .loader-title {
-      font-size: 24px;
+    .loading-title {
+      font-size: 22px;
       line-height: 1.1;
       font-weight: 900;
-
-      letter-spacing: -.5px;
     }
 
-    .loader-text {
-      margin-top: 9px;
+    .loading-copy {
+      max-width: 280px;
 
-      color: var(--gray);
+      margin:
+        8px
+        auto
+        0;
 
-      font-size: 14px;
-      line-height: 1.5;
+      color: var(--muted);
+
+      font-size: 13px;
+      line-height: 1.45;
     }
 
     /* =========================
-       ONBOARDING
+       TOPBAR
     ========================= */
 
-    .welcome-label {
-      display: inline-flex;
-
-      margin-bottom: 18px;
-
-      padding: 8px 13px;
-
-      border-radius: 999px;
-
-      background: var(--pink-soft);
-      color: #c51670;
-
-      font-size: 12px;
-      line-height: 1;
-      font-weight: 900;
-    }
-
-    .onboarding-title {
-      max-width: 440px;
-
-      margin: 0;
-
-      font-size: clamp(34px, 9vw, 47px);
-      line-height: .98;
-      font-weight: 900;
-
-      letter-spacing: -2px;
-
-      text-wrap: balance;
-    }
-
-    .lead {
-      max-width: 420px;
-
-      margin:
-        18px
-        0
-        28px;
-
-      color: #606060;
-
-      font-size: 16px;
-      line-height: 1.5;
-
-      text-wrap: pretty;
-    }
-
-    .course-list {
-      display: grid;
-      gap: 12px;
-    }
-
-    .course-card {
-      position: relative;
-
-      min-height: 112px;
-
-      padding: 20px;
-
-      overflow: hidden;
-
-      border:
-        2px
-        solid
-        transparent;
-
-      border-radius: 24px;
-
-      background: var(--white);
-
-      box-shadow:
-        0
-        8px
-        30px
-        rgba(0,0,0,.055);
-
-      cursor: pointer;
-    }
-
-    .course-card.selected {
-      border-color: var(--pink);
-      background: #fff7fb;
-    }
-
-    .course-top {
-      position: relative;
-      z-index: 2;
-
+    .topbar {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
 
-      gap: 16px;
+      gap: 14px;
+
+      margin-bottom: 18px;
     }
 
-    .course-number {
-      margin-bottom: 8px;
+    .user-head {
+      min-width: 0;
 
-      color: #999;
+      display: flex;
+      align-items: center;
 
-      font-size: 11px;
-      line-height: 1;
-      font-weight: 900;
+      gap: 11px;
     }
 
-    .course-title {
-      font-size: 23px;
-      line-height: 1.05;
-      font-weight: 900;
+    .avatar {
+      width: 43px;
+      height: 43px;
 
-      letter-spacing: -.5px;
-    }
-
-    .course-check {
-      width: 32px;
-      height: 32px;
-
-      flex: 0 0 32px;
+      flex: 0 0 43px;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      border:
-        2px
-        solid
-        #ddd;
+      overflow: hidden;
 
-      border-radius: 50%;
+      border-radius: 15px;
 
-      background: var(--white);
-      color: transparent;
-
-      font-weight: 900;
+      background:
+        linear-gradient(
+          135deg,
+          var(--pink-soft),
+          var(--lime-soft)
+        );
     }
 
-    .course-card.selected
-    .course-check {
-      border-color: var(--pink);
-      background: var(--pink);
-      color: var(--white);
+    .avatar img {
+      width: 50px;
+      height: 50px;
+
+      object-fit: contain;
     }
 
-    .course-decoration {
-      position: absolute;
-
-      right: -10px;
-      bottom: -32px;
-
-      width: 100px;
-      height: 100px;
-
-      border-radius: 50%;
+    .user-copy {
+      min-width: 0;
     }
 
-    .figma .course-decoration {
-      background: var(--pink-soft);
-    }
+    .hello {
+      margin-bottom: 3px;
 
-    .canva .course-decoration {
-      background: var(--lime-soft);
-    }
-
-    .neuro .course-decoration {
-      background: var(--purple-soft);
-    }
-
-    .vector .course-decoration {
-      background: var(--yellow-soft);
-    }
-
-    .save-button {
-      width: 100%;
-
-      margin-top: 20px;
-
-      padding: 19px 20px;
-
-      border: 0;
-      border-radius: 20px;
-
-      background: var(--black);
-      color: var(--white);
-
-      font-size: 15px;
-      line-height: 1.25;
+      font-size: 17px;
+      line-height: 1.1;
       font-weight: 900;
 
-      cursor: pointer;
+      letter-spacing: -.3px;
     }
 
-    .save-button:disabled {
-      opacity: .35;
-      cursor: default;
+    .hello-sub {
+      color: var(--muted);
+
+      font-size: 11px;
+      line-height: 1.3;
+    }
+
+    .mini-logo {
+      flex: 0 0 auto;
+
+      padding:
+        8px
+        11px;
+
+      border-radius: 999px;
+
+      background: var(--lime);
+
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 900;
     }
 
     /* =========================
-       DASHBOARD
+       HOME MASCOT HERO
     ========================= */
 
-    .hello-card {
+    .home-hero {
       position: relative;
 
-      min-height: 190px;
-
-      padding: 25px;
+      min-height: 250px;
 
       overflow: hidden;
 
       border-radius: 30px;
 
-      background: var(--black);
-      color: var(--white);
+      background:
+        radial-gradient(
+          circle at 88% 18%,
+          rgba(186,255,53,.42),
+          transparent 24%
+        ),
+        radial-gradient(
+          circle at 8% 88%,
+          rgba(255,47,146,.16),
+          transparent 30%
+        ),
+        linear-gradient(
+          145deg,
+          #fff7fb,
+          #ffffff
+        );
+
+      box-shadow: var(--shadow);
     }
 
-    .hello-small {
-      margin-bottom: 8px;
+    .home-hero-copy {
+      position: relative;
+      z-index: 2;
 
-      color: #cfcfcf;
+      width: 50%;
 
-      font-size: 11px;
+      padding:
+        25px
+        0
+        22px
+        23px;
+    }
+
+    .hero-chip {
+      display: inline-flex;
+
+      margin-bottom: 10px;
+
+      padding:
+        7px
+        10px;
+
+      border-radius: 999px;
+
+      background: var(--pink-soft);
+      color: #c41d70;
+
+      font-size: 10px;
       line-height: 1;
       font-weight: 900;
     }
 
-    .hello-name {
-      max-width: 300px;
-
+    .hero-title {
       margin: 0;
 
-      font-size: 34px;
-      line-height: 1;
+      font-size: 28px;
+      line-height: .98;
       font-weight: 900;
 
-      letter-spacing: -1.4px;
+      letter-spacing: -1px;
 
       text-wrap: balance;
     }
 
-    .hello-copy {
-      max-width: 285px;
-
+    .hero-copy {
       margin:
-        15px
+        13px
         0
         0;
 
-      color: #d7d7d7;
+      color: var(--muted);
 
-      font-size: 14px;
+      font-size: 12px;
       line-height: 1.45;
 
       text-wrap: pretty;
     }
 
-    ..dashboard-mascot {
-  position: absolute;
+    .home-mascot {
+      position: absolute;
 
-  right: -18px;
-  bottom: -16px;
+      z-index: 1;
 
-  width: 178px;
-  height: 178px;
+      width: 285px;
 
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+      right: -38px;
+      bottom: -19px;
 
-  pointer-events: none;
-}
+      pointer-events: none;
+    }
 
-.dashboard-mascot img {
-  display: block;
+    .home-mascot img {
+      display: block;
 
-  width: 100%;
-  height: 100%;
+      width: 100%;
+      height: auto;
 
-  object-fit: contain;
-  object-position: center bottom;
+      object-fit: contain;
+    }
 
-  filter:
-    drop-shadow(
-      0 10px 18px rgba(0, 0, 0, .18)
-    );
-}
+    /* =========================
+       STATS
+    ========================= */
 
     .stats {
       display: grid;
       grid-template-columns:
         repeat(3, minmax(0, 1fr));
 
-      gap: 10px;
+      gap: 9px;
 
-      margin-top: 12px;
+      margin-top: 11px;
     }
 
     .stat {
       min-width: 0;
 
       padding:
-        17px
+        14px
         6px;
 
-      border-radius: 22px;
+      border-radius: 20px;
 
-      background: var(--white);
+      background:
+        rgba(255,255,255,.92);
+
+      box-shadow: var(--shadow);
 
       text-align: center;
+    }
 
-      box-shadow:
-        0
-        7px
-        24px
-        rgba(0,0,0,.04);
+    .stat-icon {
+      display: block;
+
+      margin-bottom: 5px;
+
+      font-size: 18px;
+      line-height: 1;
     }
 
     .stat-value {
       display: block;
 
-      margin-bottom: 5px;
-
-      font-size: 24px;
+      font-size: 20px;
       line-height: 1;
       font-weight: 900;
     }
@@ -515,184 +454,47 @@
     .stat-label {
       display: block;
 
-      color: var(--gray);
+      margin-top: 5px;
 
-      font-size: 10px;
+      color: var(--muted);
+
+      font-size: 9px;
       line-height: 1.2;
     }
 
-    .my-courses {
-      display: grid;
-      gap: 10px;
-    }
-
-    .my-course {
-      min-height: 86px;
-
-      display: grid;
-      grid-template-columns:
-        minmax(0, 1fr)
-        40px;
-
-      align-items: center;
-
-      gap: 16px;
-
-      padding:
-        18px
-        18px
-        18px
-        20px;
-
-      border-radius: 22px;
-
-      background: var(--white);
-
-      box-shadow:
-        0
-        7px
-        24px
-        rgba(0,0,0,.04);
-
-      cursor: pointer;
-    }
-
-    .my-course-copy {
-      min-width: 0;
-    }
-
-    .my-course-title {
-      font-size: 18px;
-      line-height: 1.15;
-      font-weight: 900;
-
-      letter-spacing: -.25px;
-    }
-
-    .my-course-status {
-      margin-top: 6px;
-
-      color: #888;
-
-      font-size: 12px;
-      line-height: 1.35;
-
-      text-wrap: pretty;
-    }
-
-    .arrow {
-      width: 40px;
-      height: 40px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border-radius: 50%;
-
-      background: var(--lime);
-
-      font-size: 18px;
-      line-height: 1;
-      font-weight: 900;
-    }
-
     /* =========================
-       COURSE
+       OVERALL PROGRESS
     ========================= */
 
-    .back-button {
-      display: inline-flex;
-      align-items: center;
+    .overall-card {
+      padding: 18px;
 
-      gap: 7px;
-
-      margin-bottom: 20px;
-
-      padding:
-        10px
-        14px;
-
-      border: 0;
-      border-radius: 999px;
+      border-radius: 24px;
 
       background: var(--white);
 
-      box-shadow:
-        0
-        5px
-        20px
-        rgba(0,0,0,.05);
-
-      color: var(--black);
-
-      font-size: 12px;
-      line-height: 1;
-      font-weight: 900;
-
-      cursor: pointer;
+      box-shadow: var(--shadow);
     }
 
-    .course-hero {
-      padding: 24px;
-
-      border-radius: 30px;
-
-      background: var(--black);
-      color: var(--white);
-    }
-
-    .course-hero-label {
-      margin-bottom: 9px;
-
-      color: var(--lime);
-
-      font-size: 11px;
-      line-height: 1;
-      font-weight: 900;
-
-      letter-spacing: .5px;
-    }
-
-    .course-hero-title {
-      max-width: 390px;
-
-      margin: 0;
-
-      font-size: 34px;
-      line-height: 1;
-      font-weight: 900;
-
-      letter-spacing: -1.3px;
-
-      text-wrap: balance;
-    }
-
-    .progress-row {
+    .progress-top {
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
 
-      gap: 18px;
-
-      margin-top: 24px;
+      gap: 15px;
     }
 
-    .progress-number {
-      min-width: 0;
-
-      color: #e2e2e2;
-
+    .progress-label {
       font-size: 14px;
-      line-height: 1.25;
-      font-weight: 800;
+      line-height: 1.2;
+      font-weight: 900;
     }
 
     .progress-percent {
       flex: 0 0 auto;
 
-      font-size: 31px;
-      line-height: .9;
+      font-size: 25px;
+      line-height: 1;
       font-weight: 900;
     }
 
@@ -706,7 +508,7 @@
 
       border-radius: 999px;
 
-      background: #3c3c3c;
+      background: #eee9ed;
     }
 
     .progress-fill {
@@ -715,91 +517,392 @@
 
       border-radius: inherit;
 
-      background: var(--lime);
+      background:
+        linear-gradient(
+          90deg,
+          var(--pink),
+          #ff66af
+        );
 
       transition:
         width
-        .25s
+        .3s
         ease;
     }
 
+    .progress-caption {
+      margin-top: 8px;
+
+      color: var(--muted);
+
+      font-size: 11px;
+      line-height: 1.3;
+    }
+
+    /* =========================
+       COURSE GRID
+    ========================= */
+
+    .course-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap: 10px;
+    }
+
+    .course-card {
+      min-width: 0;
+
+      padding: 15px;
+
+      border:
+        1px
+        solid
+        rgba(0,0,0,.035);
+
+      border-radius: 22px;
+
+      background: var(--white);
+
+      box-shadow: var(--shadow);
+
+      cursor: pointer;
+    }
+
+    .course-card-top {
+      display: flex;
+      align-items: center;
+
+      gap: 10px;
+    }
+
+    .course-icon {
+      width: 42px;
+      height: 42px;
+
+      flex: 0 0 42px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 14px;
+
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .course-icon.figma {
+      background: var(--pink-soft);
+    }
+
+    .course-icon.canva {
+      background: #e4f8ff;
+    }
+
+    .course-icon.neuro {
+      background: var(--lime-soft);
+    }
+
+    .course-icon.vector {
+      background: var(--yellow-soft);
+    }
+
+    .course-card-title {
+      min-width: 0;
+
+      font-size: 13px;
+      line-height: 1.15;
+      font-weight: 900;
+
+      letter-spacing: -.15px;
+    }
+
+    .course-mini-track {
+      width: 100%;
+      height: 7px;
+
+      margin-top: 13px;
+
+      overflow: hidden;
+
+      border-radius: 999px;
+
+      background: #eee9ed;
+    }
+
+    .course-mini-fill {
+      height: 100%;
+
+      border-radius: inherit;
+
+      background: var(--pink);
+    }
+
+    .course-card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 7px;
+
+      margin-top: 7px;
+    }
+
+    .course-count {
+      color: var(--muted);
+
+      font-size: 9px;
+      line-height: 1.2;
+    }
+
+    .course-percentage {
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    /* =========================
+       COURSE SCREEN
+    ========================= */
+
+    .back-row {
+      display: flex;
+      align-items: center;
+
+      gap: 12px;
+
+      margin-bottom: 17px;
+    }
+
+    .back-button {
+      width: 40px;
+      height: 40px;
+
+      flex: 0 0 40px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border: 0;
+      border-radius: 14px;
+
+      background: var(--white);
+
+      box-shadow: var(--shadow);
+
+      color: var(--text);
+
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .back-title {
+      min-width: 0;
+    }
+
+    .back-title-small {
+      margin-bottom: 3px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      line-height: 1;
+    }
+
+    .back-title-main {
+      font-size: 18px;
+      line-height: 1.1;
+      font-weight: 900;
+    }
+
+    .course-hero {
+      position: relative;
+
+      min-height: 190px;
+
+      overflow: hidden;
+
+      padding:
+        23px
+        155px
+        22px
+        21px;
+
+      border-radius: 28px;
+
+      background:
+        radial-gradient(
+          circle at 90% 20%,
+          rgba(186,255,53,.35),
+          transparent 30%
+        ),
+        linear-gradient(
+          145deg,
+          #fff,
+          #fff4f9
+        );
+
+      box-shadow: var(--shadow);
+    }
+
+    .course-hero-title {
+      margin:
+        7px
+        0
+        0;
+
+      font-size: 27px;
+      line-height: 1;
+      font-weight: 900;
+
+      letter-spacing: -1px;
+
+      text-wrap: balance;
+    }
+
+    .course-hero-copy {
+      margin:
+        10px
+        0
+        0;
+
+      color: var(--muted);
+
+      font-size: 11px;
+      line-height: 1.4;
+
+      text-wrap: pretty;
+    }
+
+    .course-mascot {
+      position: absolute;
+
+      width: 180px;
+
+      right: -19px;
+      bottom: -25px;
+
+      pointer-events: none;
+    }
+
+    .course-mascot img {
+      display: block;
+
+      width: 100%;
+      height: auto;
+    }
+
+    .course-progress-card {
+      margin-top: 11px;
+
+      padding: 17px;
+
+      border-radius: 22px;
+
+      background: var(--white);
+
+      box-shadow: var(--shadow);
+    }
+
+    /* =========================
+       MODULES
+    ========================= */
+
     .modules {
       display: grid;
-      gap: 13px;
-
-      margin-top: 18px;
+      gap: 10px;
     }
 
     .module {
       overflow: hidden;
 
-      border-radius: 25px;
+      border-radius: 22px;
 
       background: var(--white);
 
-      box-shadow:
-        0
-        7px
-        25px
-        rgba(0,0,0,.045);
+      box-shadow: var(--shadow);
     }
 
     .module-header {
       display: grid;
       grid-template-columns:
+        43px
         minmax(0, 1fr)
-        36px;
+        32px;
 
       align-items: center;
 
-      gap: 16px;
+      gap: 11px;
 
-      padding: 20px;
+      padding: 14px;
 
       cursor: pointer;
+    }
+
+    .module-index {
+      width: 43px;
+      height: 43px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 14px;
+
+      background: var(--pink-soft);
+      color: var(--pink);
+
+      font-size: 19px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .module:nth-child(4n+2)
+    .module-index {
+      background: var(--lime-soft);
+      color: #5c9d16;
+    }
+
+    .module:nth-child(4n+3)
+    .module-index {
+      background: var(--purple-soft);
+      color: var(--purple);
+    }
+
+    .module:nth-child(4n+4)
+    .module-index {
+      background: var(--yellow-soft);
+      color: #c18400;
     }
 
     .module-copy {
       min-width: 0;
     }
 
-    .module-number {
-      margin-bottom: 7px;
-
-      color: #999;
-
-      font-size: 10px;
-      line-height: 1;
-      font-weight: 900;
-
-      text-transform: uppercase;
-    }
-
     .module-title {
-      max-width: 360px;
-
-      font-size: 16px;
+      font-size: 13px;
       line-height: 1.3;
       font-weight: 900;
 
-      letter-spacing: -.15px;
-
-      text-wrap: pretty;
       overflow-wrap: break-word;
+      text-wrap: pretty;
     }
 
     .module-meta {
-      margin-top: 8px;
+      margin-top: 5px;
 
-      color: #888;
+      color: var(--muted);
 
-      font-size: 11px;
-      line-height: 1.3;
+      font-size: 10px;
+      line-height: 1.25;
     }
 
-    .module-toggle {
-      width: 36px;
-      height: 36px;
+    .module-arrow {
+      width: 32px;
+      height: 32px;
 
       display: flex;
       align-items: center;
@@ -807,11 +910,9 @@
 
       border-radius: 50%;
 
-      background: var(--lime-soft);
+      background: #f6f4f5;
 
-      font-size: 17px;
-      line-height: 1;
-      font-weight: 900;
+      font-size: 14px;
 
       transition:
         transform
@@ -820,14 +921,14 @@
     }
 
     .module.open
-    .module-toggle {
+    .module-arrow {
       transform: rotate(180deg);
     }
 
     .module-progress {
-      height: 5px;
+      height: 4px;
 
-      background: #eee;
+      background: #f0edef;
     }
 
     .module-progress-fill {
@@ -846,8 +947,8 @@
 
       padding:
         0
-        15px
-        15px;
+        14px
+        10px;
     }
 
     .module.open
@@ -858,16 +959,16 @@
     .lesson {
       display: grid;
       grid-template-columns:
-        28px
+        29px
         minmax(0, 1fr);
 
       align-items: start;
 
-      gap: 12px;
+      gap: 11px;
 
       padding:
-        15px
-        5px;
+        14px
+        3px;
 
       border-top:
         1px
@@ -900,7 +1001,7 @@
       border:
         2px
         solid
-        #d8d8d8;
+        #ded9dd;
 
       border-radius: 50%;
 
@@ -908,18 +1009,11 @@
       color: transparent;
 
       font-size: 12px;
-      line-height: 1;
       font-weight: 900;
 
       transition:
-        background
+        all
         .2s
-        ease,
-        border-color
-        .2s
-        ease,
-        transform
-        .15s
         ease;
     }
 
@@ -928,11 +1022,10 @@
       border-color: var(--pink);
       background: var(--pink);
       color: var(--white);
-    }
 
-    .lesson.completed
-    .lesson-check {
-      transform: scale(1.04);
+      box-shadow:
+        0 5px 12px
+        rgba(255,47,146,.23);
     }
 
     .lesson-copy {
@@ -940,11 +1033,11 @@
     }
 
     .lesson-number {
-      margin-bottom: 5px;
+      margin-bottom: 4px;
 
-      color: #a0a0a0;
+      color: var(--soft-muted);
 
-      font-size: 9px;
+      font-size: 8px;
       line-height: 1;
       font-weight: 900;
 
@@ -952,23 +1045,17 @@
     }
 
     .lesson-title {
-      max-width: 390px;
-
-      color: #242424;
-
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.42;
       font-weight: 700;
 
-      letter-spacing: -.05px;
-
-      text-wrap: pretty;
       overflow-wrap: break-word;
+      text-wrap: pretty;
     }
 
     .lesson.completed
     .lesson-title {
-      color: #969696;
+      color: #98989e;
 
       text-decoration:
         line-through;
@@ -977,88 +1064,571 @@
         1px;
     }
 
-    .course-loading {
-      padding:
-        45px
-        20px;
+    /* =========================
+       CELEBRATION
+    ========================= */
 
-      color: var(--gray);
+    .celebration-overlay {
+      position: fixed;
+      z-index: 1000;
+
+      inset: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+
+      background:
+        rgba(30, 22, 27, .48);
+
+      backdrop-filter:
+        blur(8px);
+    }
+
+    .celebration-card {
+      position: relative;
+
+      width: 100%;
+      max-width: 390px;
+
+      overflow: hidden;
+
+      padding:
+        25px
+        22px
+        22px;
+
+      border-radius: 32px;
+
+      background:
+        radial-gradient(
+          circle at 50% 0%,
+          rgba(255,225,239,.95),
+          transparent 38%
+        ),
+        var(--white);
+
+      box-shadow:
+        0 30px 80px
+        rgba(0,0,0,.2);
 
       text-align: center;
+    }
+
+    .celebration-close {
+      position: absolute;
+      z-index: 5;
+
+      top: 15px;
+      right: 15px;
+
+      width: 35px;
+      height: 35px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border: 0;
+      border-radius: 50%;
+
+      background: #f5f2f4;
+
+      color: #555;
+
+      font-size: 18px;
+    }
+
+    .celebration-mascot {
+      width: 220px;
+      max-width: 80%;
+
+      margin:
+        0
+        auto
+        -4px;
+    }
+
+    .celebration-mascot img {
+      display: block;
+
+      width: 100%;
+      height: auto;
+    }
+
+    .celebration-title {
+      margin: 0;
+
+      font-size: 34px;
+      line-height: .95;
+      font-weight: 900;
+
+      color: var(--pink);
+
+      letter-spacing: -1px;
+    }
+
+    .celebration-subtitle {
+      margin:
+        9px
+        auto
+        0;
+
+      max-width: 285px;
+
+      font-size: 16px;
+      line-height: 1.3;
+      font-weight: 900;
+
+      text-wrap: balance;
+    }
+
+    .celebration-copy {
+      max-width: 290px;
+
+      margin:
+        9px
+        auto
+        0;
+
+      color: var(--muted);
+
+      font-size: 12px;
+      line-height: 1.45;
+
+      text-wrap: pretty;
+    }
+
+    .continue-button {
+      width: 100%;
+
+      margin-top: 18px;
+
+      padding: 16px;
+
+      border: 0;
+      border-radius: 18px;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--pink),
+          #ff5ba7
+        );
+
+      color: var(--white);
+
+      box-shadow: var(--shadow-pink);
 
       font-size: 14px;
-      line-height: 1.5;
+      font-weight: 900;
     }
 
     /* =========================
-       ERROR
+       ONBOARDING
     ========================= */
 
-    .error-box {
-      margin-top: 25px;
+    .onboarding-card {
+      margin-top: 8px;
 
-      padding: 22px;
+      padding: 24px;
 
-      border-radius: 24px;
+      border-radius: 30px;
 
-      background: #fff0f0;
+      background: var(--white);
+
+      box-shadow: var(--shadow);
+    }
+
+    .onboarding-mascot {
+      width: 220px;
+      max-width: 80%;
+
+      display: block;
+
+      margin:
+        -8px
+        auto
+        5px;
+    }
+
+    .onboarding-title {
+      margin: 0;
+
+      font-size: 31px;
+      line-height: 1;
+      font-weight: 900;
+
+      letter-spacing: -1.2px;
+
+      text-align: center;
+      text-wrap: balance;
+    }
+
+    .onboarding-copy {
+      max-width: 330px;
+
+      margin:
+        12px
+        auto
+        21px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+      line-height: 1.5;
+
+      text-align: center;
+      text-wrap: pretty;
+    }
+
+    .select-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .select-course {
+      display: grid;
+      grid-template-columns:
+        43px
+        minmax(0, 1fr)
+        30px;
+
+      align-items: center;
+
+      gap: 12px;
+
+      padding: 13px;
+
+      border:
+        2px
+        solid
+        transparent;
+
+      border-radius: 19px;
+
+      background: #faf8f9;
+
+      cursor: pointer;
+    }
+
+    .select-course.selected {
+      border-color: var(--pink);
+      background: #fff4f9;
+    }
+
+    .select-title {
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .select-check {
+      width: 28px;
+      height: 28px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border:
+        2px
+        solid
+        #dcd8db;
+
+      border-radius: 50%;
+
+      background: var(--white);
+      color: transparent;
+
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .select-course.selected
+    .select-check {
+      border-color: var(--pink);
+      background: var(--pink);
+      color: var(--white);
+    }
+
+    .save-courses {
+      width: 100%;
+
+      margin-top: 15px;
+
+      padding: 17px;
+
+      border: 0;
+      border-radius: 18px;
+
+      background: var(--pink);
+      color: var(--white);
+
+      box-shadow: var(--shadow-pink);
 
       font-size: 14px;
+      font-weight: 900;
+    }
+
+    .save-courses:disabled {
+      opacity: .35;
+      box-shadow: none;
+    }
+
+    /* =========================
+       PLACEHOLDER SCREENS
+    ========================= */
+
+    .simple-screen-card {
+      padding:
+        27px
+        22px;
+
+      border-radius: 28px;
+
+      background: var(--white);
+
+      box-shadow: var(--shadow);
+
+      text-align: center;
+    }
+
+    .simple-mascot {
+      width: 230px;
+      max-width: 78%;
+
+      margin:
+        0
+        auto
+        5px;
+    }
+
+    .simple-mascot img {
+      display: block;
+
+      width: 100%;
+      height: auto;
+    }
+
+    .simple-title {
+      margin: 0;
+
+      font-size: 25px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .simple-copy {
+      max-width: 310px;
+
+      margin:
+        11px
+        auto
+        0;
+
+      color: var(--muted);
+
+      font-size: 13px;
       line-height: 1.5;
 
       text-wrap: pretty;
     }
 
     /* =========================
+       BOTTOM NAV
+    ========================= */
+
+    .bottom-nav {
+      position: fixed;
+      z-index: 100;
+
+      left: 50%;
+      bottom:
+        calc(
+          10px +
+          env(safe-area-inset-bottom)
+        );
+
+      width:
+        calc(100% - 24px);
+
+      max-width: 496px;
+
+      display: grid;
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      padding:
+        8px
+        6px;
+
+      border:
+        1px
+        solid
+        rgba(0,0,0,.04);
+
+      border-radius: 25px;
+
+      background:
+        rgba(255,255,255,.94);
+
+      box-shadow:
+        0 10px 40px
+        rgba(60,30,45,.13);
+
+      backdrop-filter:
+        blur(15px);
+
+      transform:
+        translateX(-50%);
+    }
+
+    .nav-item {
+      min-width: 0;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      gap: 4px;
+
+      padding:
+        7px
+        2px;
+
+      border: 0;
+      border-radius: 16px;
+
+      background: transparent;
+      color: #97979e;
+    }
+
+    .nav-icon {
+      font-size: 19px;
+      line-height: 1;
+    }
+
+    .nav-label {
+      font-size: 8px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    .nav-item.active {
+      color: var(--pink);
+      background: #fff1f7;
+    }
+
+    /* =========================
+       ERROR
+    ========================= */
+
+    .error-card {
+      margin-top: 30px;
+
+      padding: 24px;
+
+      border-radius: 25px;
+
+      background: var(--white);
+
+      box-shadow: var(--shadow);
+
+      font-size: 13px;
+      line-height: 1.5;
+
+      text-align: center;
+    }
+
+    /* =========================
        MOBILE
     ========================= */
 
-    @media (max-width: 370px) {
+    @media (max-width: 390px) {
 
       .app {
-        padding-left: 14px;
-        padding-right: 14px;
+        padding-left: 13px;
+        padding-right: 13px;
       }
 
-      .hello-card {
-        padding: 22px;
+      .home-hero {
+        min-height: 235px;
       }
 
-      .hello-name {
-        font-size: 31px;
+      .home-hero-copy {
+        width: 51%;
+
+        padding:
+          22px
+          0
+          20px
+          19px;
       }
 
-.dashboard-mascot {
-  right: -20px;
-  bottom: -12px;
+      .hero-title {
+        font-size: 25px;
+      }
 
-  width: 150px;
-  height: 150px;
-}
+      .home-mascot {
+        width: 260px;
+
+        right: -45px;
+      }
+
+      .course-grid {
+        gap: 8px;
+      }
+
+      .course-card {
+        padding: 13px;
+      }
+
+      .course-icon {
+        width: 38px;
+        height: 38px;
+
+        flex-basis: 38px;
+      }
+
+      .course-card-title {
+        font-size: 12px;
+      }
 
       .course-hero {
-        padding: 21px;
+        padding-right: 135px;
       }
 
-      .course-hero-title {
-        font-size: 31px;
+      .course-mascot {
+        width: 165px;
+      }
+    }
+
+    @media (max-width: 345px) {
+
+      .hero-copy {
+        font-size: 11px;
       }
 
-      .module-header {
-        padding: 17px;
+      .home-mascot {
+        width: 235px;
+
+        right: -50px;
       }
 
-      .stats {
+      .course-card-top {
         gap: 7px;
       }
 
-      .stat {
-        padding-left: 4px;
-        padding-right: 4px;
+      .course-card {
+        padding: 11px;
       }
     }
   </style>
 </head>
+
 
 <body>
 
@@ -1068,20 +1638,25 @@
 
   <section
     id="loadingScreen"
-    class="loader-screen"
+    class="loading-screen"
   >
-    <div class="loader-inner">
+    <div>
 
-      <div class="loader-emoji">
-        🍓
-      </div>
+      <img
+        class="loading-mascot"
+        src="./mascot-home.png"
+        alt=""
+      >
 
-      <div class="loader-title">
+      <div class="loading-title">
         Собираем твой трекер
       </div>
 
-      <div class="loader-text">
-        Проверяем профиль и прогресс.
+      <div
+        class="loading-copy"
+        data-typography
+      >
+        Загружаем направления и твой прогресс.
       </div>
 
     </div>
@@ -1095,215 +1670,196 @@
     class="hidden"
   >
 
-    <header class="brand">
+    <div class="onboarding-card">
 
-      <div class="brand-name">
-        EASY DESIGN 2.0
-      </div>
-
-      <div class="brand-badge">
-        МОЙ ТРЕКЕР
-      </div>
-
-    </header>
-
-
-    <div class="welcome-label">
-      🍓 ПЕРВЫЙ ВХОД
-    </div>
-
-
-    <h1
-      id="onboardingTitle"
-      class="onboarding-title"
-    >
-      Привет! Давай настроим твой трекер
-    </h1>
-
-
-    <p
-      class="lead"
-      data-typography
-    >
-      Отметь направления, которые ты проходишь.
-      Можно выбрать одно, несколько или сразу все.
-    </p>
-
-
-    <div class="course-list">
-
-      <div
-        class="course-card figma"
-        data-course="figma"
+      <img
+        class="onboarding-mascot"
+        src="./mascot-home.png"
+        alt=""
       >
 
-        <div class="course-top">
-
-          <div>
-            <div class="course-number">
-              НАПРАВЛЕНИЕ 01
-            </div>
-
-            <div class="course-title">
-              FIGMA 2.0
-            </div>
-          </div>
-
-          <div class="course-check">
-            ✓
-          </div>
-
-        </div>
-
-        <div class="course-decoration"></div>
-
-      </div>
-
-
-      <div
-        class="course-card canva"
-        data-course="canva"
+      <h1
+        id="onboardingTitle"
+        class="onboarding-title"
       >
+        Привет!
+      </h1>
 
-        <div class="course-top">
-
-          <div>
-            <div class="course-number">
-              НАПРАВЛЕНИЕ 02
-            </div>
-
-            <div class="course-title">
-              CANVA 2.0
-            </div>
-          </div>
-
-          <div class="course-check">
-            ✓
-          </div>
-
-        </div>
-
-        <div class="course-decoration"></div>
-
-      </div>
-
-
-      <div
-        class="course-card neuro"
-        data-course="neuro"
+      <p
+        class="onboarding-copy"
+        data-typography
       >
+        Выбери направления, которые ты проходишь.
+        Мы соберём твой личный трекер.
+      </p>
 
-        <div class="course-top">
 
-          <div>
-            <div class="course-number">
-              НАПРАВЛЕНИЕ 03
-            </div>
+      <div class="select-list">
 
-            <div class="course-title">
-              НЕЙРО 2.0
-            </div>
+        <div
+          class="select-course"
+          data-course="figma"
+        >
+          <div class="course-icon figma">
+            F
           </div>
 
-          <div class="course-check">
+          <div class="select-title">
+            FIGMA 2.0
+          </div>
+
+          <div class="select-check">
             ✓
           </div>
-
         </div>
 
-        <div class="course-decoration"></div>
+
+        <div
+          class="select-course"
+          data-course="canva"
+        >
+          <div class="course-icon canva">
+            C
+          </div>
+
+          <div class="select-title">
+            CANVA 2.0
+          </div>
+
+          <div class="select-check">
+            ✓
+          </div>
+        </div>
+
+
+        <div
+          class="select-course"
+          data-course="neuro"
+        >
+          <div class="course-icon neuro">
+            ✦
+          </div>
+
+          <div class="select-title">
+            НЕЙРО 2.0
+          </div>
+
+          <div class="select-check">
+            ✓
+          </div>
+        </div>
+
+
+        <div
+          class="select-course"
+          data-course="vector"
+        >
+          <div class="course-icon vector">
+            V
+          </div>
+
+          <div class="select-title">
+            ВЕКТОР 2.0
+          </div>
+
+          <div class="select-check">
+            ✓
+          </div>
+        </div>
 
       </div>
 
 
-      <div
-        class="course-card vector"
-        data-course="vector"
+      <button
+        id="saveCoursesButton"
+        class="save-courses"
+        disabled
       >
-
-        <div class="course-top">
-
-          <div>
-            <div class="course-number">
-              НАПРАВЛЕНИЕ 04
-            </div>
-
-            <div class="course-title">
-              ВЕКТОР 2.0
-            </div>
-          </div>
-
-          <div class="course-check">
-            ✓
-          </div>
-
-        </div>
-
-        <div class="course-decoration"></div>
-
-      </div>
+        Выбери хотя бы одно направление
+      </button>
 
     </div>
-
-
-    <button
-      id="saveCoursesButton"
-      class="save-button"
-      disabled
-    >
-      Выбери хотя бы одно направление
-    </button>
 
   </section>
 
 
-  <!-- DASHBOARD -->
+  <!-- HOME -->
 
   <section
-    id="dashboardScreen"
+    id="homeScreen"
     class="hidden"
   >
 
-    <header class="brand">
+    <div class="topbar">
 
-      <div class="brand-name">
-        EASY DESIGN 2.0
+      <div class="user-head">
+
+        <div class="avatar">
+          <img
+            src="./mascot-lesson.png"
+            alt=""
+          >
+        </div>
+
+        <div class="user-copy">
+
+          <div
+            id="helloName"
+            class="hello"
+          >
+            Привет!
+          </div>
+
+          <div
+            class="hello-sub"
+            data-typography
+          >
+            Рада видеть тебя снова 💗
+          </div>
+
+        </div>
+
       </div>
 
-      <div class="brand-badge">
-        🍓 LEVEL UP
+
+      <div class="mini-logo">
+        EASY 2.0
       </div>
 
-    </header>
+    </div>
 
 
-    <div class="hello-card">
+    <div class="home-hero">
 
-      <div class="hello-small">
-        ТВОЙ ЛИЧНЫЙ ТРЕКЕР
+      <div class="home-hero-copy">
+
+        <div class="hero-chip">
+          🍓 LEVEL UP
+        </div>
+
+        <h1 class="hero-title">
+          Ты делаешь это круто!
+        </h1>
+
+        <p
+          class="hero-copy"
+          data-typography
+        >
+          Отмечай пройденные уроки и смотри,
+          как растёт твой результат.
+        </p>
+
       </div>
 
-      <h2
-        class="hello-name"
-        id="dashboardName"
-      >
-        Привет!
-      </h2>
 
-      <p
-        class="hello-copy"
-        data-typography
-      >
-        Маленькие шаги тоже считаются.
-        Продолжаем двигаться дальше ✨
-      </p>
+      <div class="home-mascot">
 
-      <div class="dashboard-mascot">
-  <img
-    src="./mascot.png"
-    alt="Маскот Easy Design"
-  >
-</div>
+        <img
+          src="./mascot-home.png"
+          alt="Маскот Easy Design"
+        >
+
+      </div>
 
     </div>
 
@@ -1312,8 +1868,52 @@
 
       <div class="stat">
 
+        <span class="stat-icon">
+          🔥
+        </span>
+
         <span
-          id="xp"
+          id="streakValue"
+          class="stat-value"
+        >
+          0
+        </span>
+
+        <span class="stat-label">
+          дней подряд
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <span class="stat-icon">
+          🍓
+        </span>
+
+        <span
+          id="strawberriesValue"
+          class="stat-value"
+        >
+          0
+        </span>
+
+        <span class="stat-label">
+          клубничек
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <span class="stat-icon">
+          ✨
+        </span>
+
+        <span
+          id="xpValue"
           class="stat-value"
         >
           0
@@ -1325,49 +1925,68 @@
 
       </div>
 
+    </div>
 
-      <div class="stat">
 
-        <span
-          id="strawberries"
-          class="stat-value"
+    <div class="section-heading">
+
+      <h2>
+        Твой общий прогресс
+      </h2>
+
+    </div>
+
+
+    <div class="overall-card">
+
+      <div class="progress-top">
+
+        <div class="progress-label">
+          Все направления
+        </div>
+
+        <div
+          id="overallPercent"
+          class="progress-percent"
         >
-          0
-        </span>
-
-        <span class="stat-label">
-          🍓 клубнички
-        </span>
+          0%
+        </div>
 
       </div>
 
 
-      <div class="stat">
+      <div class="progress-track">
 
-        <span
-          id="streak"
-          class="stat-value"
-        >
-          0
-        </span>
+        <div
+          id="overallFill"
+          class="progress-fill"
+        ></div>
 
-        <span class="stat-label">
-          🔥 серия
-        </span>
+      </div>
 
+
+      <div
+        id="overallCaption"
+        class="progress-caption"
+      >
+        0 из 0 уроков
       </div>
 
     </div>
 
 
-    <div class="section-title">
-      Мои направления
+    <div class="section-heading">
+
+      <h2>
+        Твои направления
+      </h2>
+
     </div>
 
 
     <div
-      id="myCourses"
-      class="my-courses"
+      id="courseGrid"
+      class="course-grid"
     ></div>
 
   </section>
@@ -1380,15 +1999,165 @@
     class="hidden"
   >
 
-    <button
-      id="backButton"
-      class="back-button"
-    >
-      ← Назад к направлениям
-    </button>
+    <div class="back-row">
+
+      <button
+        id="courseBackButton"
+        class="back-button"
+      >
+        ←
+      </button>
+
+      <div class="back-title">
+
+        <div class="back-title-small">
+          МОЁ НАПРАВЛЕНИЕ
+        </div>
+
+        <div
+          id="courseTopTitle"
+          class="back-title-main"
+        >
+          Курс
+        </div>
+
+      </div>
+
+    </div>
 
 
     <div id="courseContent"></div>
+
+  </section>
+
+
+  <!-- PROGRESS -->
+
+  <section
+    id="progressScreen"
+    class="hidden"
+  >
+
+    <div class="section-heading">
+      <h2>
+        Мой прогресс
+      </h2>
+    </div>
+
+    <div class="simple-screen-card">
+
+      <div class="simple-mascot">
+
+        <img
+          src="./mascot-module.png"
+          alt=""
+        >
+
+      </div>
+
+      <h2 class="simple-title">
+        Шаг за шагом ✨
+      </h2>
+
+      <p
+        id="progressScreenCopy"
+        class="simple-copy"
+      >
+        Здесь собран твой общий результат.
+      </p>
+
+      <div
+        id="progressDetails"
+        style="margin-top:22px;"
+      ></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ACHIEVEMENTS -->
+
+  <section
+    id="achievementsScreen"
+    class="hidden"
+  >
+
+    <div class="section-heading">
+      <h2>
+        Мои достижения
+      </h2>
+    </div>
+
+    <div class="simple-screen-card">
+
+      <div class="simple-mascot">
+
+        <img
+          src="./mascot-course.png"
+          alt=""
+        >
+
+      </div>
+
+      <h2 class="simple-title">
+        Скоро здесь будет твоя коллекция 🏆
+      </h2>
+
+      <p
+        class="simple-copy"
+        data-typography
+      >
+        Достижения подключим следующим этапом.
+        Они будут открываться за реальные шаги
+        в обучении.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- PROFILE -->
+
+  <section
+    id="profileScreen"
+    class="hidden"
+  >
+
+    <div class="section-heading">
+      <h2>
+        Профиль
+      </h2>
+    </div>
+
+    <div class="simple-screen-card">
+
+      <div class="simple-mascot">
+
+        <img
+          src="./mascot-waiting.png"
+          alt=""
+        >
+
+      </div>
+
+      <h2
+        id="profileName"
+        class="simple-title"
+      >
+        Easy Designer
+      </h2>
+
+      <p
+        class="simple-copy"
+        data-typography
+      >
+        Здесь позже появятся твоя статистика,
+        серия занятий и собранные награды.
+      </p>
+
+    </div>
 
   </section>
 
@@ -1400,18 +2169,9 @@
     class="hidden"
   >
 
-    <header class="brand">
-
-      <div class="brand-name">
-        EASY DESIGN 2.0
-      </div>
-
-    </header>
-
-
     <div
-      class="error-box"
       id="errorText"
+      class="error-card"
     >
       Не удалось загрузить трекер.
     </div>
@@ -1419,6 +2179,132 @@
   </section>
 
 </main>
+
+
+<!-- BOTTOM NAV -->
+
+<nav
+  id="bottomNav"
+  class="bottom-nav hidden"
+>
+
+  <button
+    class="nav-item active"
+    data-screen="home"
+  >
+    <span class="nav-icon">
+      ⌂
+    </span>
+
+    <span class="nav-label">
+      Главная
+    </span>
+  </button>
+
+
+  <button
+    class="nav-item"
+    data-screen="progress"
+  >
+    <span class="nav-icon">
+      ✓
+    </span>
+
+    <span class="nav-label">
+      Прогресс
+    </span>
+  </button>
+
+
+  <button
+    class="nav-item"
+    data-screen="achievements"
+  >
+    <span class="nav-icon">
+      ☆
+    </span>
+
+    <span class="nav-label">
+      Достижения
+    </span>
+  </button>
+
+
+  <button
+    class="nav-item"
+    data-screen="profile"
+  >
+    <span class="nav-icon">
+      ●
+    </span>
+
+    <span class="nav-label">
+      Профиль
+    </span>
+  </button>
+
+</nav>
+
+
+<!-- CELEBRATION -->
+
+<div
+  id="celebrationOverlay"
+  class="celebration-overlay hidden"
+>
+
+  <div class="celebration-card">
+
+    <button
+      id="celebrationClose"
+      class="celebration-close"
+    >
+      ×
+    </button>
+
+
+    <div class="celebration-mascot">
+
+      <img
+        src="./mascot-lesson.png"
+        alt=""
+      >
+
+    </div>
+
+
+    <h2 class="celebration-title">
+      ЕСТЬ! 🎉
+    </h2>
+
+
+    <div
+      id="celebrationSubtitle"
+      class="celebration-subtitle"
+    >
+      Ещё один урок готов!
+    </div>
+
+
+    <p
+      class="celebration-copy"
+      data-typography
+    >
+      Маленький шаг сделан.
+      Продолжаем двигаться дальше 💗
+    </p>
+
+
+    <button
+      id="celebrationContinue"
+      class="continue-button"
+    >
+      Продолжаем →
+    </button>
+
+  </div>
+
+</div>
 
 
 <script>
@@ -1431,40 +2317,54 @@ const tg =
   window.Telegram?.WebApp;
 
 
-const loadingScreen =
+const screens = {
+  loading:
+    document.getElementById(
+      "loadingScreen"
+    ),
+
+  onboarding:
+    document.getElementById(
+      "onboardingScreen"
+    ),
+
+  home:
+    document.getElementById(
+      "homeScreen"
+    ),
+
+  course:
+    document.getElementById(
+      "courseScreen"
+    ),
+
+  progress:
+    document.getElementById(
+      "progressScreen"
+    ),
+
+  achievements:
+    document.getElementById(
+      "achievementsScreen"
+    ),
+
+  profile:
+    document.getElementById(
+      "profileScreen"
+    ),
+
+  error:
+    document.getElementById(
+      "errorScreen"
+    )
+};
+
+
+const bottomNav =
   document.getElementById(
-    "loadingScreen"
+    "bottomNav"
   );
 
-const onboardingScreen =
-  document.getElementById(
-    "onboardingScreen"
-  );
-
-const dashboardScreen =
-  document.getElementById(
-    "dashboardScreen"
-  );
-
-const courseScreen =
-  document.getElementById(
-    "courseScreen"
-  );
-
-const errorScreen =
-  document.getElementById(
-    "errorScreen"
-  );
-
-const errorText =
-  document.getElementById(
-    "errorText"
-  );
-
-const saveCoursesButton =
-  document.getElementById(
-    "saveCoursesButton"
-  );
 
 const courseContent =
   document.getElementById(
@@ -1476,10 +2376,6 @@ const selectedCourses =
   new Set();
 
 
-let currentProfile = null;
-let currentCourseCode = null;
-
-
 const courseNames = {
   figma: "FIGMA 2.0",
   canva: "CANVA 2.0",
@@ -1488,22 +2384,27 @@ const courseNames = {
 };
 
 
+const courseIcons = {
+  figma: "F",
+  canva: "C",
+  neuro: "✦",
+  vector: "V"
+};
+
+
+let currentProfile = null;
+
+let currentCourseCode = null;
+
+let courseCache = {};
+
+let currentScreen =
+  "loading";
+
+
 /* =========================
-   ТИПОГРАФИКА
+   TYPOGRAPHY
 ========================= */
-
-/*
-  Не даём коротким предлогам
-  и союзам оставаться в конце строки.
-
-  Например:
-  "работа с изображениями"
-  превращается в
-  "работа с изображениями"
-
-  В HTML это визуально обычный пробел,
-  но перенос между словами запрещён.
-*/
 
 function typographyText(value) {
 
@@ -1511,9 +2412,13 @@ function typographyText(value) {
     return "";
   }
 
+
   let text =
     String(value)
-      .replace(/\s+/g, " ")
+      .replace(
+        /\s+/g,
+        " "
+      )
       .trim();
 
 
@@ -1554,42 +2459,20 @@ function typographyText(value) {
     );
 
 
-  text =
-    text.replace(
-      pattern,
-      (match, before, word) =>
-        `${before}${word}\u00A0`
-    );
-
-
-  return text;
+  return text.replace(
+    pattern,
+    (match, before, word) =>
+      `${before}${word}\u00A0`
+  );
 }
 
-
-function applyTypography(root = document) {
-
-  root
-    .querySelectorAll(
-      "[data-typography]"
-    )
-    .forEach((element) => {
-
-      element.textContent =
-        typographyText(
-          element.textContent
-        );
-    });
-}
-
-
-/* =========================
-   HELPERS
-========================= */
 
 function escapeHTML(value) {
 
   const div =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
   div.textContent =
     value ?? "";
@@ -1606,57 +2489,40 @@ function safeText(value) {
 }
 
 
-function showOnly(screen) {
+function applyTypography(
+  root = document
+) {
 
-  loadingScreen.classList.add(
-    "hidden"
-  );
+  root
+    .querySelectorAll(
+      "[data-typography]"
+    )
+    .forEach(
+      element => {
 
-  onboardingScreen.classList.add(
-    "hidden"
-  );
-
-  dashboardScreen.classList.add(
-    "hidden"
-  );
-
-  courseScreen.classList.add(
-    "hidden"
-  );
-
-  errorScreen.classList.add(
-    "hidden"
-  );
-
-
-  screen.classList.remove(
-    "hidden"
-  );
-
-
-  window.scrollTo({
-    top: 0,
-    behavior: "auto"
-  });
+        element.textContent =
+          typographyText(
+            element.textContent
+          );
+      }
+    );
 }
 
 
-function showError(message) {
+/* =========================
+   API
+========================= */
 
-  errorText.textContent =
-    typographyText(message);
-
-  showOnly(errorScreen);
-}
-
-
-async function apiRequest(payload) {
+async function apiRequest(
+  payload
+) {
 
   const response =
     await fetch(
       API_URL,
       {
-        method: "POST",
+        method:
+          "POST",
 
         headers: {
           "Content-Type":
@@ -1682,6 +2548,7 @@ async function apiRequest(payload) {
     !response.ok ||
     !data.ok
   ) {
+
     throw new Error(
       data.error ||
       "Ошибка загрузки"
@@ -1694,141 +2561,526 @@ async function apiRequest(payload) {
 
 
 /* =========================
-   DASHBOARD
+   SCREEN CONTROL
 ========================= */
 
-function renderDashboard(profile) {
+function showScreen(
+  name,
+  showNavigation = true
+) {
 
-  currentProfile =
-    profile;
-
-
-  document
-    .getElementById(
-      "dashboardName"
-    )
-    .textContent =
-      typographyText(
-        `Привет, ${profile.user.firstName}!`
-      );
-
-
-  document
-    .getElementById("xp")
-    .textContent =
-      profile.user.xp ?? 0;
-
-
-  document
-    .getElementById(
-      "strawberries"
-    )
-    .textContent =
-      profile.user.strawberries ?? 0;
-
-
-  document
-    .getElementById(
-      "streak"
-    )
-    .textContent =
-      profile.user.streak ?? 0;
-
-
-  const container =
-    document.getElementById(
-      "myCourses"
+  Object.values(
+    screens
+  )
+    .forEach(
+      screen =>
+        screen.classList.add(
+          "hidden"
+        )
     );
 
 
-  container.innerHTML = "";
+  screens[name]
+    .classList.remove(
+      "hidden"
+    );
 
 
-  profile.courses.forEach(
-    (courseCode) => {
-
-      const item =
-        document.createElement(
-          "div"
-        );
+  currentScreen =
+    name;
 
 
-      item.className =
-        "my-course";
+  if (
+    showNavigation &&
+    ![
+      "loading",
+      "onboarding",
+      "error",
+      "course"
+    ].includes(name)
+  ) {
 
-
-      item.innerHTML = `
-
-        <div class="my-course-copy">
-
-          <div class="my-course-title">
-            ${safeText(
-              courseNames[courseCode] ||
-              courseCode
-            )}
-          </div>
-
-          <div class="my-course-status">
-            ${safeText(
-              "Открыть программу и прогресс"
-            )}
-          </div>
-
-        </div>
-
-        <div class="arrow">
-          →
-        </div>
-      `;
-
-
-      item.addEventListener(
-        "click",
-        () =>
-          openCourse(
-            courseCode
-          )
+    bottomNav
+      .classList
+      .remove(
+        "hidden"
       );
 
+  } else {
 
-      container.appendChild(
+    bottomNav
+      .classList
+      .add(
+        "hidden"
+      );
+  }
+
+
+  document
+    .querySelectorAll(
+      ".nav-item"
+    )
+    .forEach(
+      item => {
+
         item
+          .classList
+          .toggle(
+            "active",
+            item.dataset.screen ===
+              name
+          );
+      }
+    );
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "auto"
+  });
+}
+
+
+function showError(
+  message
+) {
+
+  document
+    .getElementById(
+      "errorText"
+    )
+    .textContent =
+      typographyText(
+        message
       );
-    }
-  );
 
 
-  showOnly(
-    dashboardScreen
+  showScreen(
+    "error",
+    false
   );
 }
 
 
 /* =========================
-   ONBOARDING
+   LOAD ALL COURSE PROGRESS
 ========================= */
 
-function renderOnboarding(
-  profile
+async function loadCoursesProgress() {
+
+  courseCache = {};
+
+
+  const codes =
+    currentProfile?.courses ||
+    [];
+
+
+  const results =
+    await Promise.all(
+      codes.map(
+        async code => {
+
+          try {
+
+            const result =
+              await apiRequest({
+                action:
+                  "course",
+
+                courseCode:
+                  code
+              });
+
+
+            return [
+              code,
+              result.course
+            ];
+
+          } catch (error) {
+
+            console.error(
+              error
+            );
+
+            return [
+              code,
+              null
+            ];
+          }
+        }
+      )
+    );
+
+
+  results.forEach(
+    ([code, course]) => {
+
+      if (course) {
+
+        courseCache[code] =
+          course;
+      }
+    }
+  );
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+async function renderHome(
+  reloadCourses = false
 ) {
 
-  currentProfile =
-    profile;
+  if (reloadCourses) {
+
+    await loadCoursesProgress();
+  }
+
+
+  const firstName =
+    currentProfile
+      ?.user
+      ?.firstName ||
+    "";
 
 
   document
     .getElementById(
-      "onboardingTitle"
+      "helloName"
     )
     .textContent =
       typographyText(
-        `Привет, ${profile.user.firstName}! Давай настроим твой трекер`
+        `Привет, ${firstName}! 👋`
       );
 
 
-  showOnly(
-    onboardingScreen
+  document
+    .getElementById(
+      "profileName"
+    )
+    .textContent =
+      firstName ||
+      "Easy Designer";
+
+
+  document
+    .getElementById(
+      "streakValue"
+    )
+    .textContent =
+      currentProfile
+        ?.user
+        ?.streak ??
+      0;
+
+
+  document
+    .getElementById(
+      "strawberriesValue"
+    )
+    .textContent =
+      currentProfile
+        ?.user
+        ?.strawberries ??
+      0;
+
+
+  document
+    .getElementById(
+      "xpValue"
+    )
+    .textContent =
+      currentProfile
+        ?.user
+        ?.xp ??
+      0;
+
+
+  let totalLessons = 0;
+
+  let completedLessons = 0;
+
+
+  Object
+    .values(
+      courseCache
+    )
+    .forEach(
+      course => {
+
+        totalLessons +=
+          course.totalLessons ||
+          0;
+
+        completedLessons +=
+          course.completedLessons ||
+          0;
+      }
+    );
+
+
+  const overallProgress =
+    totalLessons > 0
+      ? Math.round(
+          (
+            completedLessons /
+            totalLessons
+          ) * 100
+        )
+      : 0;
+
+
+  document
+    .getElementById(
+      "overallPercent"
+    )
+    .textContent =
+      `${overallProgress}%`;
+
+
+  document
+    .getElementById(
+      "overallFill"
+    )
+    .style
+    .width =
+      `${overallProgress}%`;
+
+
+  document
+    .getElementById(
+      "overallCaption"
+    )
+    .textContent =
+      `${completedLessons} из ${totalLessons} уроков`;
+
+
+  const grid =
+    document.getElementById(
+      "courseGrid"
+    );
+
+
+  grid.innerHTML = "";
+
+
+  currentProfile
+    .courses
+    .forEach(
+      code => {
+
+        const course =
+          courseCache[code];
+
+
+        if (!course) {
+          return;
+        }
+
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+
+        card.className =
+          "course-card";
+
+
+        card.innerHTML = `
+
+          <div class="course-card-top">
+
+            <div
+              class="
+                course-icon
+                ${code}
+              "
+            >
+              ${courseIcons[code]}
+            </div>
+
+
+            <div class="course-card-title">
+              ${safeText(
+                courseNames[code]
+              )}
+            </div>
+
+          </div>
+
+
+          <div class="course-mini-track">
+
+            <div
+              class="course-mini-fill"
+              style="
+                width:
+                ${course.progress}%;
+              "
+            ></div>
+
+          </div>
+
+
+          <div class="course-card-bottom">
+
+            <div class="course-count">
+              ${course.completedLessons}
+              /
+              ${course.totalLessons}
+              уроков
+            </div>
+
+            <div class="course-percentage">
+              ${course.progress}%
+            </div>
+
+          </div>
+        `;
+
+
+        card.addEventListener(
+          "click",
+          () =>
+            openCourse(
+              code
+            )
+        );
+
+
+        grid.appendChild(
+          card
+        );
+      }
+    );
+
+
+  renderProgressDetails();
+
+
+  showScreen(
+    "home"
   );
+}
+
+
+/* =========================
+   PROGRESS SCREEN
+========================= */
+
+function renderProgressDetails() {
+
+  const container =
+    document.getElementById(
+      "progressDetails"
+    );
+
+
+  if (!container) {
+    return;
+  }
+
+
+  container.innerHTML = "";
+
+
+  currentProfile
+    ?.courses
+    ?.forEach(
+      code => {
+
+        const course =
+          courseCache[code];
+
+
+        if (!course) {
+          return;
+        }
+
+
+        const block =
+          document.createElement(
+            "div"
+          );
+
+
+        block.style.cssText = `
+          text-align:left;
+          padding:14px 0;
+          border-top:1px solid #eeeeef;
+        `;
+
+
+        block.innerHTML = `
+
+          <div
+            style="
+              display:flex;
+              justify-content:space-between;
+              gap:12px;
+              font-size:13px;
+              font-weight:900;
+            "
+          >
+
+            <span>
+              ${safeText(
+                course.title
+              )}
+            </span>
+
+            <span>
+              ${course.progress}%
+            </span>
+
+          </div>
+
+
+          <div
+            class="progress-track"
+            style="
+              height:7px;
+              margin-top:9px;
+            "
+          >
+
+            <div
+              class="progress-fill"
+              style="
+                width:
+                ${course.progress}%;
+              "
+            ></div>
+
+          </div>
+
+
+          <div
+            style="
+              margin-top:6px;
+              color:#777985;
+              font-size:10px;
+            "
+          >
+            ${course.completedLessons}
+            из
+            ${course.totalLessons}
+            уроков
+          </div>
+        `;
+
+
+        container.appendChild(
+          block
+        );
+      }
+    );
 }
 
 
@@ -1844,44 +3096,57 @@ async function openCourse(
     courseCode;
 
 
-  showOnly(
-    courseScreen
+  document
+    .getElementById(
+      "courseTopTitle"
+    )
+    .textContent =
+      courseNames[
+        courseCode
+      ];
+
+
+  showScreen(
+    "course",
+    false
   );
 
 
   courseContent.innerHTML = `
 
-    <div class="course-loading">
-
-      <div
-        style="
-          font-size:42px;
-          margin-bottom:12px;
-        "
-      >
-        🍓
-      </div>
-
-      ${safeText(
-        "Загружаем программу..."
-      )}
-
+    <div
+      style="
+        padding:50px 20px;
+        text-align:center;
+        color:#777985;
+      "
+    >
+      Загружаем программу...
     </div>
   `;
 
 
   try {
 
-    const data =
+    const result =
       await apiRequest({
-        action: "course",
+        action:
+          "course",
+
         courseCode
       });
 
 
+    courseCache[
+      courseCode
+    ] =
+      result.course;
+
+
     renderCourse(
-      data.course
+      result.course
     );
+
 
   } catch (error) {
 
@@ -1892,11 +3157,10 @@ async function openCourse(
 
     courseContent.innerHTML = `
 
-      <div class="error-box">
+      <div class="error-card">
 
-        ${safeText(
-          "Не удалось загрузить программу. Вернись назад и попробуй ещё раз 💗"
-        )}
+        Не удалось загрузить программу.
+        Попробуй открыть направление ещё раз.
 
       </div>
     `;
@@ -1912,55 +3176,51 @@ function renderCourse(
   const modulesHTML =
     course.modules
       .map(
-        (module) => {
+        module => {
 
           const isOpen =
-            openModuleId ===
-            module.id;
+            module.id ===
+            openModuleId;
 
 
-          const lessonsHTML =
+          const lessons =
             module.lessons
               .map(
-                (lesson) => {
+                lesson => `
 
-                  return `
+                  <div
+                    class="
+                      lesson
+                      ${
+                        lesson.completed
+                          ? "completed"
+                          : ""
+                      }
+                    "
+                    data-lesson-id="${lesson.id}"
+                  >
 
-                    <div
-                      class="
-                        lesson
-                        ${
-                          lesson.completed
-                            ? "completed"
-                            : ""
-                        }
-                      "
-                      data-lesson-id="${lesson.id}"
-                    >
+                    <div class="lesson-check">
+                      ✓
+                    </div>
 
-                      <div class="lesson-check">
-                        ✓
+
+                    <div class="lesson-copy">
+
+                      <div class="lesson-number">
+                        УРОК ${lesson.position}
                       </div>
 
-
-                      <div class="lesson-copy">
-
-                        <div class="lesson-number">
-                          УРОК ${lesson.position}
-                        </div>
-
-                        <div class="lesson-title">
-                          ${safeText(
-                            lesson.title
-                          )}
-                        </div>
-
+                      <div class="lesson-title">
+                        ${safeText(
+                          lesson.title
+                        )}
                       </div>
 
                     </div>
-                  `;
 
-                }
+                  </div>
+                `
               )
               .join("");
 
@@ -1981,11 +3241,12 @@ function renderCourse(
 
               <div class="module-header">
 
-                <div class="module-copy">
+                <div class="module-index">
+                  ${module.position}
+                </div>
 
-                  <div class="module-number">
-                    МОДУЛЬ ${module.position}
-                  </div>
+
+                <div class="module-copy">
 
                   <div class="module-title">
                     ${safeText(
@@ -1994,19 +3255,17 @@ function renderCourse(
                   </div>
 
                   <div class="module-meta">
-
                     ${module.completedLessons}
-                    из
+                    /
                     ${module.totalLessons}
                     уроков ·
                     ${module.progress}%
-
                   </div>
 
                 </div>
 
 
-                <div class="module-toggle">
+                <div class="module-arrow">
                   ↓
                 </div>
 
@@ -2027,12 +3286,11 @@ function renderCourse(
 
 
               <div class="lessons">
-                ${lessonsHTML}
+                ${lessons}
               </div>
 
             </div>
           `;
-
         }
       )
       .join("");
@@ -2042,29 +3300,48 @@ function renderCourse(
 
     <div class="course-hero">
 
-      <div class="course-hero-label">
-        МОЁ НАПРАВЛЕНИЕ
+      <div>
+
+        <div class="eyebrow">
+          ТВОЙ ПУТЬ
+        </div>
+
+        <h1 class="course-hero-title">
+          ${safeText(
+            course.title
+          )}
+        </h1>
+
+        <p
+          class="course-hero-copy"
+        >
+          ${safeText(
+            "Отмечай пройденные уроки и двигайся к завершению курса."
+          )}
+        </p>
+
       </div>
 
 
-      <h1 class="course-hero-title">
-        ${safeText(
-          course.title
-        )}
-      </h1>
+      <div class="course-mascot">
+
+        <img
+          src="./mascot-module.png"
+          alt=""
+        >
+
+      </div>
+
+    </div>
 
 
-      <div class="progress-row">
+    <div class="course-progress-card">
 
-        <div class="progress-number">
+      <div class="progress-top">
 
-          ${course.completedLessons}
-          из
-          ${course.totalLessons}
-          уроков
-
+        <div class="progress-label">
+          Прогресс курса
         </div>
-
 
         <div class="progress-percent">
           ${course.progress}%
@@ -2085,11 +3362,25 @@ function renderCourse(
 
       </div>
 
+
+      <div class="progress-caption">
+
+        ${course.completedLessons}
+        из
+        ${course.totalLessons}
+        уроков
+
+      </div>
+
     </div>
 
 
-    <div class="section-title">
-      Твоя программа
+    <div class="section-heading">
+
+      <h2>
+        Модули
+      </h2>
+
     </div>
 
 
@@ -2099,24 +3390,24 @@ function renderCourse(
   `;
 
 
-  bindModuleEvents();
+  bindModules();
 
-  bindLessonEvents();
+  bindLessons();
 }
 
 
 /* =========================
-   MODULE ACCORDION
+   MODULES
 ========================= */
 
-function bindModuleEvents() {
+function bindModules() {
 
   document
     .querySelectorAll(
       ".module-header"
     )
     .forEach(
-      (header) => {
+      header => {
 
         header.addEventListener(
           "click",
@@ -2128,9 +3419,11 @@ function bindModuleEvents() {
               );
 
 
-            module.classList.toggle(
-              "open"
-            );
+            module
+              .classList
+              .toggle(
+                "open"
+              );
           }
         );
       }
@@ -2139,223 +3432,301 @@ function bindModuleEvents() {
 
 
 /* =========================
-   LESSON CHECKBOXES
+   LESSONS
 ========================= */
 
-function bindLessonEvents() {
+function bindLessons() {
 
   document
     .querySelectorAll(
       ".lesson"
     )
     .forEach(
-      (lessonElement) => {
+      element => {
 
-        lessonElement
-          .addEventListener(
-            "click",
-            async () => {
+        element.addEventListener(
+          "click",
+          async () => {
 
-              if (
-                lessonElement
-                  .classList
-                  .contains(
-                    "busy"
-                  )
-              ) {
-                return;
-              }
-
-
-              const lessonId =
-                lessonElement
-                  .dataset
-                  .lessonId;
+            if (
+              element
+                .classList
+                .contains(
+                  "busy"
+                )
+            ) {
+              return;
+            }
 
 
-              const moduleElement =
-                lessonElement.closest(
-                  ".module"
+            const lessonId =
+              element
+                .dataset
+                .lessonId;
+
+
+            const wasCompleted =
+              element
+                .classList
+                .contains(
+                  "completed"
                 );
 
 
-              const moduleId =
-                moduleElement
-                  ?.dataset
-                  ?.moduleId ||
-                null;
+            const module =
+              element.closest(
+                ".module"
+              );
 
 
-              lessonElement
+            const moduleId =
+              module
+                ?.dataset
+                ?.moduleId ||
+              null;
+
+
+            element
+              .classList
+              .add(
+                "busy"
+              );
+
+
+            try {
+
+              const result =
+                await apiRequest({
+                  action:
+                    "toggle_lesson",
+
+                  lessonId
+                });
+
+
+              if (
+                result
+                  .lesson
+                  .completed
+              ) {
+
+                tg
+                  ?.HapticFeedback
+                  ?.notificationOccurred(
+                    "success"
+                  );
+
+              } else {
+
+                tg
+                  ?.HapticFeedback
+                  ?.impactOccurred(
+                    "light"
+                  );
+              }
+
+
+              const updated =
+                await apiRequest({
+                  action:
+                    "course",
+
+                  courseCode:
+                    currentCourseCode
+                });
+
+
+              courseCache[
+                currentCourseCode
+              ] =
+                updated.course;
+
+
+              renderCourse(
+                updated.course,
+                moduleId
+              );
+
+
+              if (
+                !wasCompleted &&
+                result
+                  .lesson
+                  .completed
+              ) {
+
+                showCelebration();
+              }
+
+
+            } catch (error) {
+
+              console.error(
+                error
+              );
+
+
+              element
                 .classList
-                .add(
+                .remove(
                   "busy"
                 );
 
 
-              try {
-
-                const result =
-                  await apiRequest({
-                    action:
-                      "toggle_lesson",
-
-                    lessonId
-                  });
-
-
-                /*
-                  Сначала мгновенно
-                  показываем состояние.
-                */
-
-                lessonElement
-                  .classList
-                  .toggle(
-                    "completed",
-                    result.lesson.completed
-                  );
-
-
-                /*
-                  Затем запрашиваем курс
-                  заново.
-
-                  Поэтому цифры прогресса
-                  всегда считаются сервером,
-                  а не доверяются браузеру.
-                */
-
-                const updated =
-                  await apiRequest({
-                    action: "course",
-
-                    courseCode:
-                      currentCourseCode
-                  });
-
-
-                renderCourse(
-                  updated.course,
-                  moduleId
+              tg
+                ?.HapticFeedback
+                ?.notificationOccurred(
+                  "error"
                 );
-
-
-                /*
-                  Небольшая тактильная
-                  отдача внутри Telegram.
-                */
-
-                if (
-                  result.lesson.completed
-                ) {
-
-                  tg?.HapticFeedback
-                    ?.notificationOccurred(
-                      "success"
-                    );
-
-                } else {
-
-                  tg?.HapticFeedback
-                    ?.impactOccurred(
-                      "light"
-                    );
-                }
-
-
-              } catch (error) {
-
-                console.error(
-                  error
-                );
-
-
-                lessonElement
-                  .classList
-                  .remove(
-                    "busy"
-                  );
-
-
-                tg?.HapticFeedback
-                  ?.notificationOccurred(
-                    "error"
-                  );
-              }
             }
-          );
+          }
+        );
       }
     );
 }
 
 
 /* =========================
-   COURSE SELECTION
+   CELEBRATION
+========================= */
+
+function showCelebration() {
+
+  document
+    .getElementById(
+      "celebrationOverlay"
+    )
+    .classList
+    .remove(
+      "hidden"
+    );
+}
+
+
+function hideCelebration() {
+
+  document
+    .getElementById(
+      "celebrationOverlay"
+    )
+    .classList
+    .add(
+      "hidden"
+    );
+}
+
+
+document
+  .getElementById(
+    "celebrationClose"
+  )
+  .addEventListener(
+    "click",
+    hideCelebration
+  );
+
+
+document
+  .getElementById(
+    "celebrationContinue"
+  )
+  .addEventListener(
+    "click",
+    hideCelebration
+  );
+
+
+/* =========================
+   COURSE BACK
+========================= */
+
+document
+  .getElementById(
+    "courseBackButton"
+  )
+  .addEventListener(
+    "click",
+    async () => {
+
+      currentCourseCode =
+        null;
+
+
+      await renderHome(
+        false
+      );
+    }
+  );
+
+
+/* =========================
+   BOTTOM NAV
 ========================= */
 
 document
   .querySelectorAll(
-    ".course-card"
+    ".nav-item"
   )
   .forEach(
-    (card) => {
+    item => {
 
-      card.addEventListener(
+      item.addEventListener(
         "click",
-        () => {
+        async () => {
 
-          const course =
-            card.dataset.course;
+          const target =
+            item.dataset.screen;
 
 
           if (
-            selectedCourses.has(
-              course
-            )
+            target ===
+            "home"
           ) {
 
-            selectedCourses.delete(
-              course
+            await renderHome(
+              false
             );
 
-            card.classList.remove(
-              "selected"
-            );
-
-          } else {
-
-            selectedCourses.add(
-              course
-            );
-
-            card.classList.add(
-              "selected"
-            );
+            return;
           }
 
 
           if (
-            selectedCourses.size > 0
+            target ===
+            "progress"
           ) {
 
-            saveCoursesButton.disabled =
-              false;
+            renderProgressDetails();
+
+            showScreen(
+              "progress"
+            );
+
+            return;
+          }
 
 
-            saveCoursesButton.textContent =
-              selectedCourses.size === 4
-                ? "Собрать мой трекер — ALL IN ✨"
-                : "Собрать мой трекер →";
+          if (
+            target ===
+            "achievements"
+          ) {
 
-          } else {
+            showScreen(
+              "achievements"
+            );
 
-            saveCoursesButton.disabled =
-              true;
+            return;
+          }
 
 
-            saveCoursesButton.textContent =
-              "Выбери хотя бы одно направление";
+          if (
+            target ===
+            "profile"
+          ) {
+
+            showScreen(
+              "profile"
+            );
           }
         }
       );
@@ -2363,24 +3734,122 @@ document
   );
 
 
-saveCoursesButton
+/* =========================
+   ONBOARDING
+========================= */
+
+document
+  .querySelectorAll(
+    ".select-course"
+  )
+  .forEach(
+    card => {
+
+      card.addEventListener(
+        "click",
+        () => {
+
+          const code =
+            card.dataset.course;
+
+
+          if (
+            selectedCourses.has(
+              code
+            )
+          ) {
+
+            selectedCourses.delete(
+              code
+            );
+
+            card
+              .classList
+              .remove(
+                "selected"
+              );
+
+          } else {
+
+            selectedCourses.add(
+              code
+            );
+
+            card
+              .classList
+              .add(
+                "selected"
+              );
+          }
+
+
+          updateSaveButton();
+        }
+      );
+    }
+  );
+
+
+function updateSaveButton() {
+
+  const button =
+    document.getElementById(
+      "saveCoursesButton"
+    );
+
+
+  if (
+    selectedCourses.size === 0
+  ) {
+
+    button.disabled =
+      true;
+
+    button.textContent =
+      "Выбери хотя бы одно направление";
+
+    return;
+  }
+
+
+  button.disabled =
+    false;
+
+
+  button.textContent =
+    selectedCourses.size === 4
+      ? "Собрать мой трекер — ALL IN ✨"
+      : "Собрать мой трекер →";
+}
+
+
+document
+  .getElementById(
+    "saveCoursesButton"
+  )
   .addEventListener(
     "click",
     async () => {
 
       if (
-        selectedCourses.size === 0
+        selectedCourses.size ===
+        0
       ) {
         return;
       }
 
 
-      saveCoursesButton.disabled =
+      const button =
+        document.getElementById(
+          "saveCoursesButton"
+        );
+
+
+      button.disabled =
         true;
 
-
-      saveCoursesButton.textContent =
-        "Собираем твой трекер... 🍓";
+      button.textContent =
+        "Собираем... 🍓";
 
 
       try {
@@ -2394,15 +3863,17 @@ saveCoursesButton
         });
 
 
-        const updatedProfile =
+        currentProfile =
           await apiRequest({
             action:
               "profile"
           });
 
 
-        renderDashboard(
-          updatedProfile
+        await loadCoursesProgress();
+
+        await renderHome(
+          false
         );
 
 
@@ -2413,40 +3884,11 @@ saveCoursesButton
         );
 
 
-        saveCoursesButton.disabled =
+        button.disabled =
           false;
 
-
-        saveCoursesButton.textContent =
+        button.textContent =
           "Попробовать ещё раз";
-      }
-    }
-  );
-
-
-/* =========================
-   BACK
-========================= */
-
-document
-  .getElementById(
-    "backButton"
-  )
-  .addEventListener(
-    "click",
-    () => {
-
-      currentCourseCode =
-        null;
-
-
-      if (
-        currentProfile
-      ) {
-
-        renderDashboard(
-          currentProfile
-        );
       }
     }
   );
@@ -2464,7 +3906,7 @@ async function startApp() {
   if (!tg) {
 
     showError(
-      "Этот трекер открывается только через Telegram 💗"
+      "Этот трекер открывается через Telegram 💗"
     );
 
     return;
@@ -2488,7 +3930,7 @@ async function startApp() {
 
   try {
 
-    const profile =
+    currentProfile =
       await apiRequest({
         action:
           "profile"
@@ -2496,19 +3938,36 @@ async function startApp() {
 
 
     if (
-      profile.needsCourseSelection
+      currentProfile
+        .needsCourseSelection
     ) {
 
-      renderOnboarding(
-        profile
+      document
+        .getElementById(
+          "onboardingTitle"
+        )
+        .textContent =
+          typographyText(
+            `Привет, ${currentProfile.user.firstName}!`
+          );
+
+
+      showScreen(
+        "onboarding",
+        false
       );
 
-    } else {
 
-      renderDashboard(
-        profile
-      );
+      return;
     }
+
+
+    await loadCoursesProgress();
+
+
+    await renderHome(
+      false
+    );
 
 
   } catch (error) {

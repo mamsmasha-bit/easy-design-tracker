@@ -1,229 +1,916 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
   <title>Easy Design 2.0 | Трекер</title>
 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <style>
+    :root {
+      --pink: #ff3fa4;
+      --pink-soft: #ffe5f3;
+      --lime: #c8ff45;
+      --lime-soft: #efffc8;
+      --black: #171717;
+      --gray: #777;
+      --light: #f7f7f7;
+      --white: #ffffff;
+    }
+
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Arial, sans-serif;
-      background: #fafafa;
-      color: #171717;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 100% 0%, #ffe5f3 0, transparent 35%),
+        radial-gradient(circle at 0% 100%, #efffc8 0, transparent 35%),
+        #fafafa;
+      color: var(--black);
+    }
+
+    button {
+      font-family: inherit;
     }
 
     .app {
       width: 100%;
-      max-width: 480px;
+      max-width: 520px;
+      min-height: 100vh;
       margin: 0 auto;
-      padding: 32px 22px;
+      padding:
+        22px
+        18px
+        calc(30px + env(safe-area-inset-bottom));
     }
 
-    .card {
-      background: #ffffff;
-      border-radius: 28px;
-      padding: 26px 22px;
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06);
+    .hidden {
+      display: none !important;
+    }
+
+    /* LOADER */
+
+    .loader-screen {
+      min-height: 75vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .loader-box {
+      max-width: 300px;
+    }
+
+    .loader-emoji {
+      font-size: 48px;
+      margin-bottom: 18px;
+    }
+
+    .loader-title {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .loader-text {
+      color: var(--gray);
+      line-height: 1.5;
+    }
+
+    /* HEADER */
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .brand-name {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-badge {
+      padding: 8px 12px;
+      background: var(--lime);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    /* ONBOARDING */
+
+    .welcome-label {
+      display: inline-flex;
+      padding: 8px 13px;
+      margin-bottom: 18px;
+      border-radius: 999px;
+      background: var(--pink-soft);
+      color: #c51670;
+      font-size: 13px;
+      font-weight: 700;
     }
 
     h1 {
-      margin: 0 0 10px;
-      font-size: 28px;
+      margin: 0;
+      max-width: 430px;
+      font-size: clamp(34px, 9vw, 48px);
+      line-height: 0.98;
+      letter-spacing: -2px;
     }
 
-    .subtitle {
-      margin: 0 0 26px;
-      color: #666;
+    .lead {
+      margin: 18px 0 28px;
+      max-width: 420px;
+      color: #606060;
+      font-size: 16px;
       line-height: 1.5;
     }
 
-    .status {
-      padding: 16px;
-      border-radius: 18px;
-      background: #f3f3f3;
-      line-height: 1.5;
+    .course-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .course-card {
+      position: relative;
+      min-height: 112px;
+      padding: 20px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      border-radius: 24px;
+      background: var(--white);
+      box-shadow: 0 8px 30px rgba(0,0,0,.055);
+      cursor: pointer;
+      transition:
+        transform .15s ease,
+        border-color .15s ease,
+        background .15s ease;
+    }
+
+    .course-card:active {
+      transform: scale(.985);
+    }
+
+    .course-card.selected {
+      border-color: var(--pink);
+      background: #fff7fb;
+    }
+
+    .course-top {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .course-number {
+      margin-bottom: 8px;
+      color: #9a9a9a;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .course-title {
+      font-size: 23px;
+      font-weight: 900;
+      letter-spacing: -0.8px;
+    }
+
+    .course-check {
+      width: 32px;
+      height: 32px;
+      flex: 0 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #dedede;
+      border-radius: 50%;
+      background: white;
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .course-card.selected .course-check {
+      border-color: var(--pink);
+      background: var(--pink);
+      color: white;
+    }
+
+    .course-decoration {
+      position: absolute;
+      right: -10px;
+      bottom: -32px;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      opacity: .8;
+    }
+
+    .figma .course-decoration {
+      background: var(--pink-soft);
+    }
+
+    .canva .course-decoration {
+      background: var(--lime-soft);
+    }
+
+    .neuro .course-decoration {
+      background: #e9e2ff;
+    }
+
+    .vector .course-decoration {
+      background: #fff0bc;
+    }
+
+    .save-button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 19px 20px;
+      border: 0;
+      border-radius: 20px;
+      background: var(--black);
+      color: white;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: opacity .2s ease, transform .15s ease;
+    }
+
+    .save-button:active {
+      transform: scale(.985);
+    }
+
+    .save-button:disabled {
+      opacity: .35;
+      cursor: default;
+    }
+
+    .hint {
+      margin: 12px 10px 0;
+      color: #999;
+      font-size: 12px;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* DASHBOARD */
+
+    .hello-card {
+      position: relative;
+      padding: 25px;
+      overflow: hidden;
+      border-radius: 30px;
+      background: var(--black);
+      color: white;
+    }
+
+    .hello-small {
+      margin-bottom: 7px;
+      color: #cfcfcf;
+      font-size: 14px;
+    }
+
+    .hello-name {
+      max-width: 330px;
+      margin: 0;
+      font-size: 34px;
+      line-height: 1;
+      letter-spacing: -1.4px;
+    }
+
+    .hello-copy {
+      max-width: 300px;
+      margin: 15px 0 0;
+      color: #d7d7d7;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .strawberry-big {
+      position: absolute;
+      right: 20px;
+      bottom: 8px;
+      font-size: 58px;
+      transform: rotate(9deg);
     }
 
     .stats {
-      display: none;
+      display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      margin-top: 18px;
+      margin-top: 12px;
     }
 
     .stat {
-      background: #f5f5f5;
-      border-radius: 18px;
-      padding: 16px 8px;
+      padding: 17px 8px;
+      border-radius: 22px;
+      background: white;
       text-align: center;
+      box-shadow: 0 7px 24px rgba(0,0,0,.04);
     }
 
     .stat-value {
       display: block;
-      font-size: 22px;
-      font-weight: 700;
       margin-bottom: 5px;
+      font-size: 25px;
+      font-weight: 900;
     }
 
     .stat-label {
-      font-size: 12px;
       color: #777;
+      font-size: 11px;
+      line-height: 1.2;
     }
 
-    .success {
-      background: #efffe5;
+    .section-title {
+      margin: 30px 2px 15px;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -.7px;
     }
 
-    .error {
+    .my-courses {
+      display: grid;
+      gap: 10px;
+    }
+
+    .my-course {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 82px;
+      padding: 18px 19px;
+      border-radius: 22px;
+      background: white;
+      box-shadow: 0 7px 24px rgba(0,0,0,.04);
+    }
+
+    .my-course-title {
+      font-size: 18px;
+      font-weight: 850;
+    }
+
+    .my-course-status {
+      margin-top: 5px;
+      color: #888;
+      font-size: 12px;
+    }
+
+    .arrow {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--lime);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .footer-note {
+      margin-top: 24px;
+      padding: 18px;
+      border-radius: 20px;
+      background: var(--pink-soft);
+      color: #a5125b;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    /* ERROR */
+
+    .error-box {
+      margin-top: 30px;
+      padding: 24px;
+      border-radius: 24px;
       background: #fff0f0;
+      line-height: 1.5;
     }
   </style>
 </head>
 
 <body>
 
-  <main class="app">
-    <div class="card">
+<main class="app">
 
-      <h1>Easy Design 2.0 🍓</h1>
+  <!-- ЗАГРУЗКА -->
 
-      <p class="subtitle" id="hello">
-        Проверяем твой профиль...
-      </p>
+  <section id="loadingScreen" class="loader-screen">
+    <div class="loader-box">
+      <div class="loader-emoji">🍓</div>
+      <div class="loader-title">Собираем твой трекер</div>
+      <div class="loader-text">
+        Ещё секундочку — проверяем профиль и прогресс.
+      </div>
+    </div>
+  </section>
 
-      <div class="status" id="status">
-        Подключаемся к трекеру 💗
+
+  <!-- ПЕРВЫЙ ВХОД -->
+
+  <section id="onboardingScreen" class="hidden">
+
+    <header class="brand">
+      <div class="brand-name">EASY DESIGN 2.0</div>
+      <div class="brand-badge">МОЙ ТРЕКЕР</div>
+    </header>
+
+    <div class="welcome-label">🍓 ПЕРВЫЙ ВХОД</div>
+
+    <h1 id="onboardingTitle">
+      Привет! Давай настроим твой трекер
+    </h1>
+
+    <p class="lead">
+      Отметь направления, которые ты проходишь.
+      Можно выбрать одно, несколько или сразу все.
+    </p>
+
+    <div class="course-list">
+
+      <div class="course-card figma" data-course="figma">
+        <div class="course-top">
+          <div>
+            <div class="course-number">направление 01</div>
+            <div class="course-title">FIGMA 2.0</div>
+          </div>
+
+          <div class="course-check">✓</div>
+        </div>
+
+        <div class="course-decoration"></div>
       </div>
 
-      <div class="stats" id="stats">
 
-        <div class="stat">
-          <span class="stat-value" id="xp">0</span>
-          <span class="stat-label">XP</span>
+      <div class="course-card canva" data-course="canva">
+        <div class="course-top">
+          <div>
+            <div class="course-number">направление 02</div>
+            <div class="course-title">CANVA 2.0</div>
+          </div>
+
+          <div class="course-check">✓</div>
         </div>
 
-        <div class="stat">
-          <span class="stat-value" id="strawberries">0</span>
-          <span class="stat-label">🍓 клубнички</span>
+        <div class="course-decoration"></div>
+      </div>
+
+
+      <div class="course-card neuro" data-course="neuro">
+        <div class="course-top">
+          <div>
+            <div class="course-number">направление 03</div>
+            <div class="course-title">НЕЙРО 2.0</div>
+          </div>
+
+          <div class="course-check">✓</div>
         </div>
 
-        <div class="stat">
-          <span class="stat-value" id="streak">0</span>
-          <span class="stat-label">🔥 серия</span>
+        <div class="course-decoration"></div>
+      </div>
+
+
+      <div class="course-card vector" data-course="vector">
+        <div class="course-top">
+          <div>
+            <div class="course-number">направление 04</div>
+            <div class="course-title">ВЕКТОР 2.0</div>
+          </div>
+
+          <div class="course-check">✓</div>
         </div>
 
+        <div class="course-decoration"></div>
       </div>
 
     </div>
-  </main>
 
-  <script>
-    const API_URL =
-      "https://rwteklmyawgtbvrgmesw.supabase.co/functions/v1/mini-app-api";
+    <button
+      id="saveCoursesButton"
+      class="save-button"
+      disabled
+    >
+      Выбери хотя бы одно направление
+    </button>
 
-    const tg = window.Telegram?.WebApp;
+    <div class="hint">
+      Потом мы добавим возможность изменить направления,
+      если ты докупишь ещё один курс.
+    </div>
 
-    const hello = document.getElementById("hello");
-    const status = document.getElementById("status");
-    const stats = document.getElementById("stats");
+  </section>
 
-    async function startApp() {
 
-      if (!tg) {
-        status.textContent =
-          "Открой трекер через Telegram 💗";
+  <!-- ГЛАВНЫЙ ЭКРАН -->
 
-        status.classList.add("error");
+  <section id="dashboardScreen" class="hidden">
+
+    <header class="brand">
+      <div class="brand-name">EASY DESIGN 2.0</div>
+      <div class="brand-badge">🍓 LEVEL UP</div>
+    </header>
+
+    <div class="hello-card">
+
+      <div class="hello-small">
+        ТВОЙ ЛИЧНЫЙ ТРЕКЕР
+      </div>
+
+      <h2 class="hello-name" id="dashboardName">
+        Привет!
+      </h2>
+
+      <p class="hello-copy">
+        Маленькие шаги тоже считаются.
+        Продолжаем двигаться дальше ✨
+      </p>
+
+      <div class="strawberry-big">🍓</div>
+
+    </div>
+
+
+    <div class="stats">
+
+      <div class="stat">
+        <span id="xp" class="stat-value">0</span>
+        <span class="stat-label">XP</span>
+      </div>
+
+      <div class="stat">
+        <span id="strawberries" class="stat-value">0</span>
+        <span class="stat-label">🍓 клубнички</span>
+      </div>
+
+      <div class="stat">
+        <span id="streak" class="stat-value">0</span>
+        <span class="stat-label">🔥 серия</span>
+      </div>
+
+    </div>
+
+
+    <div class="section-title">
+      Мои направления
+    </div>
+
+    <div id="myCourses" class="my-courses"></div>
+
+
+    <div class="footer-note">
+      💗 Скоро здесь появится твой прогресс по каждому
+      модулю, выполненные уроки, достижения и реакции
+      нашего маскота.
+    </div>
+
+  </section>
+
+
+  <!-- ОШИБКА -->
+
+  <section id="errorScreen" class="hidden">
+
+    <header class="brand">
+      <div class="brand-name">EASY DESIGN 2.0</div>
+    </header>
+
+    <div class="error-box" id="errorText">
+      Не удалось загрузить трекер.
+    </div>
+
+  </section>
+
+</main>
+
+
+<script>
+
+  const API_URL =
+    "https://rwteklmyawgtbvrgmesw.supabase.co/functions/v1/mini-app-api";
+
+  const tg = window.Telegram?.WebApp;
+
+  const loadingScreen =
+    document.getElementById("loadingScreen");
+
+  const onboardingScreen =
+    document.getElementById("onboardingScreen");
+
+  const dashboardScreen =
+    document.getElementById("dashboardScreen");
+
+  const errorScreen =
+    document.getElementById("errorScreen");
+
+  const errorText =
+    document.getElementById("errorText");
+
+  const saveCoursesButton =
+    document.getElementById("saveCoursesButton");
+
+  const selectedCourses = new Set();
+
+  let currentProfile = null;
+
+
+  const courseNames = {
+    figma: "FIGMA 2.0",
+    canva: "CANVA 2.0",
+    neuro: "НЕЙРО 2.0",
+    vector: "ВЕКТОР 2.0"
+  };
+
+
+  function showOnly(screen) {
+
+    loadingScreen.classList.add("hidden");
+    onboardingScreen.classList.add("hidden");
+    dashboardScreen.classList.add("hidden");
+    errorScreen.classList.add("hidden");
+
+    screen.classList.remove("hidden");
+  }
+
+
+  function showError(message) {
+
+    errorText.textContent = message;
+
+    showOnly(errorScreen);
+  }
+
+
+  async function apiRequest(payload) {
+
+    const response = await fetch(API_URL, {
+
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        initData: tg.initData,
+        ...payload
+      })
+
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.ok) {
+      throw new Error(
+        data.error || "Ошибка загрузки"
+      );
+    }
+
+    return data;
+  }
+
+
+  function renderDashboard(profile) {
+
+    currentProfile = profile;
+
+    document.getElementById(
+      "dashboardName"
+    ).textContent =
+      `Привет, ${profile.user.firstName}!`;
+
+    document.getElementById(
+      "xp"
+    ).textContent =
+      profile.user.xp ?? 0;
+
+    document.getElementById(
+      "strawberries"
+    ).textContent =
+      profile.user.strawberries ?? 0;
+
+    document.getElementById(
+      "streak"
+    ).textContent =
+      profile.user.streak ?? 0;
+
+
+    const container =
+      document.getElementById("myCourses");
+
+    container.innerHTML = "";
+
+
+    profile.courses.forEach((courseCode) => {
+
+      const item =
+        document.createElement("div");
+
+      item.className = "my-course";
+
+      item.innerHTML = `
+        <div>
+          <div class="my-course-title">
+            ${courseNames[courseCode] || courseCode}
+          </div>
+
+          <div class="my-course-status">
+            Скоро здесь будет твой прогресс
+          </div>
+        </div>
+
+        <div class="arrow">→</div>
+      `;
+
+      container.appendChild(item);
+
+    });
+
+
+    showOnly(dashboardScreen);
+  }
+
+
+  function renderOnboarding(profile) {
+
+    currentProfile = profile;
+
+    const name =
+      profile.user.firstName || "";
+
+    document.getElementById(
+      "onboardingTitle"
+    ).textContent =
+      `Привет, ${name}! Давай настроим твой трекер`;
+
+    showOnly(onboardingScreen);
+  }
+
+
+  document
+    .querySelectorAll(".course-card")
+    .forEach((card) => {
+
+      card.addEventListener("click", () => {
+
+        const course =
+          card.dataset.course;
+
+        if (selectedCourses.has(course)) {
+
+          selectedCourses.delete(course);
+          card.classList.remove("selected");
+
+        } else {
+
+          selectedCourses.add(course);
+          card.classList.add("selected");
+
+        }
+
+
+        if (selectedCourses.size > 0) {
+
+          saveCoursesButton.disabled = false;
+
+          saveCoursesButton.textContent =
+            selectedCourses.size === 4
+              ? "Собрать мой трекер — ALL IN ✨"
+              : `Собрать мой трекер →`;
+
+        } else {
+
+          saveCoursesButton.disabled = true;
+
+          saveCoursesButton.textContent =
+            "Выбери хотя бы одно направление";
+        }
+
+      });
+
+    });
+
+
+  saveCoursesButton.addEventListener(
+    "click",
+    async () => {
+
+      if (selectedCourses.size === 0) {
         return;
       }
 
-      tg.ready();
-      tg.expand();
-
-      const telegramUser =
-        tg.initDataUnsafe?.user;
-
-      if (telegramUser?.first_name) {
-        hello.textContent =
-          `Привет, ${telegramUser.first_name}! Проверяем твой профиль 🍓`;
-      }
-
-      // Если страницу открыли просто по ссылке в браузере,
-      // Telegram initData отсутствует.
-      if (!tg.initData) {
-        status.textContent =
-          "Этот трекер открывается только через бот EASY DESIGN 💗";
-
-        status.classList.add("error");
-        return;
-      }
+      saveCoursesButton.disabled = true;
+      saveCoursesButton.textContent =
+        "Собираем твой трекер... 🍓";
 
       try {
 
-        const response = await fetch(API_URL, {
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify({
-            initData: tg.initData
-          })
+        await apiRequest({
+          action: "save_courses",
+          courses: [...selectedCourses]
         });
 
-        const data = await response.json();
 
-        if (!response.ok || !data.ok) {
-          throw new Error(
-            data.error || "Не удалось открыть профиль"
-          );
-        }
+        const updatedProfile =
+          await apiRequest({
+            action: "profile"
+          });
 
-        hello.textContent =
-          `Привет, ${data.user.firstName}! 🍓✨`;
 
-        status.textContent =
-          "Профиль найден! Твой трекер подключён 💗";
-
-        status.classList.add("success");
-
-        document.getElementById("xp").textContent =
-          data.user.xp ?? 0;
-
-        document.getElementById("strawberries").textContent =
-          data.user.strawberries ?? 0;
-
-        document.getElementById("streak").textContent =
-          data.user.streak ?? 0;
-
-        stats.style.display = "grid";
+        renderDashboard(updatedProfile);
 
       } catch (error) {
 
         console.error(error);
 
-        status.textContent =
-          "Не удалось загрузить профиль. Попробуй открыть трекер заново через бота 💗";
+        saveCoursesButton.disabled = false;
+        saveCoursesButton.textContent =
+          "Попробовать ещё раз";
 
-        status.classList.add("error");
+        if (tg?.HapticFeedback) {
+          tg.HapticFeedback.notificationOccurred(
+            "error"
+          );
+        }
       }
+
+    }
+  );
+
+
+  async function startApp() {
+
+    if (!tg) {
+
+      showError(
+        "Этот трекер открывается только через Telegram 💗"
+      );
+
+      return;
     }
 
-    startApp();
-  </script>
+
+    tg.ready();
+    tg.expand();
+
+
+    if (!tg.initData) {
+
+      showError(
+        "Открой трекер через бот EASY DESIGN 💗"
+      );
+
+      return;
+    }
+
+
+    try {
+
+      const profile =
+        await apiRequest({
+          action: "profile"
+        });
+
+
+      if (profile.needsCourseSelection) {
+
+        renderOnboarding(profile);
+
+      } else {
+
+        renderDashboard(profile);
+
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+      showError(
+        "Не удалось открыть твой профиль. Закрой трекер и запусти его ещё раз через бот EASY DESIGN 💗"
+      );
+    }
+
+  }
+
+
+  startApp();
+
+</script>
 
 </body>
 </html>

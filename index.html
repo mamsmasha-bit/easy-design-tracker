@@ -3063,11 +3063,11 @@
 
 
     <p
+      id="celebrationCopy"
       class="celebration-copy"
       data-typography
     >
-      Маленький шаг сделан.
-      Продолжаем двигаться дальше 💗
+      +10 XP · +1 🍓
     </p>
 
 
@@ -4368,6 +4368,28 @@ function bindLessons() {
                 });
 
 
+              // Сразу синхронизируем XP и клубнички,
+              // которые backend вернул после отметки урока.
+              if (result?.user) {
+
+                currentProfile.user = {
+                  ...currentProfile.user,
+                  xp:
+                    result.user.xp ??
+                    currentProfile.user.xp ??
+                    0,
+                  strawberries:
+                    result.user.strawberries ??
+                    currentProfile.user.strawberries ??
+                    0,
+                  streak:
+                    result.user.streak ??
+                    currentProfile.user.streak ??
+                    0,
+                };
+              }
+
+
               if (
                 result
                   .lesson
@@ -4412,6 +4434,29 @@ function bindLessons() {
               );
 
 
+              // Обновляем счётчики сразу, без возврата на главную
+              // и без перезагрузки приложения.
+              const strawberriesValue =
+                document.getElementById(
+                  "strawberriesValue"
+                );
+
+              const xpValue =
+                document.getElementById(
+                  "xpValue"
+                );
+
+              if (strawberriesValue) {
+                strawberriesValue.textContent =
+                  currentProfile?.user?.strawberries ?? 0;
+              }
+
+              if (xpValue) {
+                xpValue.textContent =
+                  currentProfile?.user?.xp ?? 0;
+              }
+
+
               if (
                 !wasCompleted &&
                 result
@@ -4419,7 +4464,9 @@ function bindLessons() {
                   .completed
               ) {
 
-                showCelebration();
+                showCelebration(
+                  result.reward || null
+                );
               }
 
 
@@ -4454,7 +4501,36 @@ function bindLessons() {
    CELEBRATION
 ========================= */
 
-function showCelebration() {
+function showCelebration(reward = null) {
+
+  const subtitle =
+    document.getElementById(
+      "celebrationSubtitle"
+    );
+
+  const copy =
+    document.getElementById(
+      "celebrationCopy"
+    );
+
+
+  if (reward?.granted) {
+
+    subtitle.textContent =
+      "Ещё один урок готов!";
+
+    copy.textContent =
+      `+${reward.xp ?? 0} XP · +${reward.strawberries ?? 0} 🍓`;
+
+  } else {
+
+    subtitle.textContent =
+      "Урок снова отмечен ✓";
+
+    copy.textContent =
+      "Награда за этот урок уже была получена 💗";
+  }
+
 
   document
     .getElementById(

@@ -1626,6 +1626,321 @@
         padding: 11px;
       }
     }
+    /* =========================================
+   HOME — COMPACT LEVEL UP DESIGN
+========================================= */
+
+/* Общая плотность главной */
+#homeScreen .topbar {
+  margin-bottom: 12px;
+}
+
+/* Верхнее приветствие */
+#homeScreen .avatar {
+  width: 38px;
+  height: 38px;
+  flex-basis: 38px;
+  border-radius: 13px;
+}
+
+#homeScreen .avatar img {
+  width: 44px;
+  height: 44px;
+}
+
+#homeScreen .hello {
+  font-size: 16px;
+  line-height: 1.05;
+}
+
+#homeScreen .hello-sub {
+  margin-top: 3px;
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+#homeScreen .mini-logo {
+  padding: 8px 12px;
+  font-size: 10px;
+}
+
+
+/* HERO */
+#homeScreen .home-hero {
+  min-height: 205px;
+  border-radius: 26px;
+}
+
+#homeScreen .home-hero-copy {
+  width: 54%;
+  padding:
+    20px
+    0
+    20px
+    20px;
+}
+
+#homeScreen .hero-chip {
+  margin-bottom: 10px;
+  padding: 6px 9px;
+  font-size: 9px;
+}
+
+#homeScreen .hero-title {
+  max-width: 190px;
+
+  font-size: 25px;
+  line-height: .98;
+  letter-spacing: -.8px;
+
+  text-wrap: balance;
+}
+
+#homeScreen .hero-copy {
+  max-width: 175px;
+
+  margin-top: 11px;
+
+  font-size: 10.5px;
+  line-height: 1.42;
+
+  text-wrap: pretty;
+}
+
+#homeScreen .home-mascot {
+  width: 225px;
+
+  right: -31px;
+  bottom: -16px;
+}
+
+
+/* СТАТИСТИКА */
+#homeScreen .stats {
+  gap: 8px;
+  margin-top: 9px;
+}
+
+#homeScreen .stat {
+  padding:
+    11px
+    5px;
+
+  border-radius: 18px;
+}
+
+#homeScreen .stat-icon {
+  margin-bottom: 4px;
+  font-size: 15px;
+}
+
+#homeScreen .stat-value {
+  font-size: 18px;
+}
+
+#homeScreen .stat-label {
+  margin-top: 4px;
+
+  font-size: 8px;
+  line-height: 1.15;
+}
+
+
+/* ЗАГОЛОВКИ СЕКЦИЙ */
+#homeScreen .section-heading {
+  margin:
+    20px
+    3px
+    10px;
+}
+
+#homeScreen .section-heading h2 {
+  font-size: 17px;
+  line-height: 1.1;
+  letter-spacing: -.35px;
+}
+
+
+/* ОБЩИЙ ПРОГРЕСС */
+#homeScreen .overall-card {
+  padding: 14px 15px;
+
+  border-radius: 20px;
+}
+
+#homeScreen .progress-label {
+  font-size: 12px;
+}
+
+#homeScreen .progress-percent {
+  font-size: 20px;
+}
+
+#homeScreen .progress-track {
+  height: 8px;
+  margin-top: 10px;
+}
+
+#homeScreen .progress-caption {
+  margin-top: 6px;
+  font-size: 9px;
+}
+
+
+/* КАРТОЧКИ НАПРАВЛЕНИЙ */
+#homeScreen .course-grid {
+  gap: 8px;
+}
+
+#homeScreen .course-card {
+  padding: 12px;
+
+  border-radius: 19px;
+}
+
+#homeScreen .course-icon {
+  width: 36px;
+  height: 36px;
+
+  flex-basis: 36px;
+
+  border-radius: 11px;
+
+  font-size: 16px;
+}
+
+#homeScreen .course-card-top {
+  gap: 8px;
+}
+
+#homeScreen .course-card-title {
+  font-size: 11px;
+  line-height: 1.15;
+}
+
+#homeScreen .course-mini-track {
+  height: 6px;
+  margin-top: 10px;
+}
+
+#homeScreen .course-card-bottom {
+  margin-top: 6px;
+}
+
+#homeScreen .course-count {
+  font-size: 8px;
+}
+
+#homeScreen .course-percentage {
+  font-size: 10px;
+}
+
+
+/* Нижняя навигация */
+.bottom-nav {
+  bottom:
+    calc(
+      8px +
+      env(safe-area-inset-bottom)
+    );
+
+  padding: 6px;
+
+  border-radius: 22px;
+}
+
+.nav-item {
+  gap: 3px;
+
+  padding:
+    6px
+    2px;
+}
+
+.nav-icon {
+  font-size: 17px;
+}
+
+.nav-label {
+  font-size: 7.5px;
+}
+
+
+/*
+  ВАЖНО:
+  резервируем место под fixed navigation,
+  чтобы она никогда не лежала поверх контента.
+*/
+.app {
+  padding-bottom:
+    calc(
+      125px +
+      env(safe-area-inset-bottom)
+    );
+}
+
+
+/* =========================================
+   УЗКИЕ ЭКРАНЫ
+========================================= */
+
+@media (max-width: 390px) {
+
+  #homeScreen .home-hero {
+    min-height: 195px;
+  }
+
+  #homeScreen .home-hero-copy {
+    width: 55%;
+
+    padding:
+      18px
+      0
+      18px
+      17px;
+  }
+
+  #homeScreen .hero-title {
+    max-width: 175px;
+
+    font-size: 23px;
+  }
+
+  #homeScreen .hero-copy {
+    max-width: 155px;
+
+    font-size: 10px;
+  }
+
+  #homeScreen .home-mascot {
+    width: 210px;
+
+    right: -34px;
+    bottom: -14px;
+  }
+}
+
+
+@media (max-width: 350px) {
+
+  #homeScreen .hero-title {
+    max-width: 155px;
+
+    font-size: 21px;
+  }
+
+  #homeScreen .hero-copy {
+    max-width: 140px;
+
+    font-size: 9.5px;
+  }
+
+  #homeScreen .home-mascot {
+    width: 195px;
+
+    right: -38px;
+  }
+}
   </style>
 </head>
 
@@ -1838,7 +2153,7 @@
         </div>
 
         <h1 class="hero-title">
-          Ты делаешь это круто!
+         Ты делаешь<br>это круто!
         </h1>
 
         <p

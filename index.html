@@ -1226,6 +1226,76 @@
       font-weight: 900;
     }
 
+
+    /* =========================
+       CELEBRATION — EVENT CARDS
+    ========================= */
+
+    .celebration-card {
+      padding-top: 18px;
+    }
+
+    .celebration-mascot {
+      width: 235px;
+      max-width: 82%;
+      min-height: 205px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: -8px;
+    }
+
+    .celebration-mascot img {
+      max-height: 235px;
+      object-fit: contain;
+    }
+
+    .celebration-rewards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+      max-width: 285px;
+      margin: 15px auto 0;
+    }
+
+    .celebration-reward {
+      min-width: 0;
+      padding: 12px 10px;
+      border-radius: 17px;
+      background: #fff6fa;
+      box-shadow: inset 0 0 0 1px rgba(255,47,146,.07);
+    }
+
+    .celebration-reward-icon {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .celebration-reward-value {
+      display: block;
+      font-size: 15px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .celebration-reward-note {
+      margin: 9px auto 0;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.35;
+      text-wrap: pretty;
+    }
+
+    .celebration-card.module-event .celebration-title {
+      color: var(--purple);
+    }
+
+    .celebration-card.course-event .celebration-title {
+      color: #c18400;
+    }
+
     /* =========================
        ONBOARDING
     ========================= */
@@ -2870,7 +2940,7 @@
       <div class="simple-mascot">
 
         <img
-          src="./mascot-course.png"
+          src="./mascot-achievement.png"
           alt=""
         >
 
@@ -3042,6 +3112,7 @@
     <div class="celebration-mascot">
 
       <img
+        id="celebrationMascot"
         src="./mascot-lesson.png"
         alt=""
       >
@@ -3049,7 +3120,10 @@
     </div>
 
 
-    <h2 class="celebration-title">
+    <h2
+      id="celebrationTitle"
+      class="celebration-title"
+    >
       ЕСТЬ! 🎉
     </h2>
 
@@ -3067,8 +3141,43 @@
       class="celebration-copy"
       data-typography
     >
-      +10 XP · +1 🍓
+      Отличный шаг вперёд 💗
     </p>
+
+
+    <div
+      id="celebrationRewards"
+      class="celebration-rewards hidden"
+    >
+
+      <div class="celebration-reward">
+        <span class="celebration-reward-icon">✨</span>
+        <strong
+          id="celebrationXp"
+          class="celebration-reward-value"
+        >
+          +10 XP
+        </strong>
+      </div>
+
+      <div class="celebration-reward">
+        <span class="celebration-reward-icon">🍓</span>
+        <strong
+          id="celebrationStrawberries"
+          class="celebration-reward-value"
+        >
+          +1
+        </strong>
+      </div>
+
+    </div>
+
+    <div
+      id="celebrationRewardNote"
+      class="celebration-reward-note hidden"
+    >
+      Награда уже в твоей копилке
+    </div>
 
 
     <button
@@ -4359,6 +4468,37 @@ function bindLessons() {
 
             try {
 
+              const courseBefore =
+                courseCache[
+                  currentCourseCode
+                ];
+
+              const moduleBefore =
+                courseBefore
+                  ?.modules
+                  ?.find(
+                    item =>
+                      String(item.id) ===
+                      String(moduleId)
+                  );
+
+              const moduleWasComplete =
+                Boolean(
+                  moduleBefore &&
+                  moduleBefore.totalLessons > 0 &&
+                  moduleBefore.completedLessons ===
+                    moduleBefore.totalLessons
+                );
+
+              const courseWasComplete =
+                Boolean(
+                  courseBefore &&
+                  courseBefore.totalLessons > 0 &&
+                  courseBefore.completedLessons ===
+                    courseBefore.totalLessons
+                );
+
+
               const result =
                 await apiRequest({
                   action:
@@ -4464,7 +4604,56 @@ function bindLessons() {
                   .completed
               ) {
 
+                const moduleAfter =
+                  updated.course
+                    ?.modules
+                    ?.find(
+                      item =>
+                        String(item.id) ===
+                        String(moduleId)
+                    );
+
+                const moduleIsComplete =
+                  Boolean(
+                    moduleAfter &&
+                    moduleAfter.totalLessons > 0 &&
+                    moduleAfter.completedLessons ===
+                      moduleAfter.totalLessons
+                  );
+
+                const courseIsComplete =
+                  Boolean(
+                    updated.course &&
+                    updated.course.totalLessons > 0 &&
+                    updated.course.completedLessons ===
+                      updated.course.totalLessons
+                  );
+
+
+                let celebrationType =
+                  "lesson";
+
+
+                if (
+                  courseIsComplete &&
+                  !courseWasComplete
+                ) {
+
+                  celebrationType =
+                    "course";
+
+                } else if (
+                  moduleIsComplete &&
+                  !moduleWasComplete
+                ) {
+
+                  celebrationType =
+                    "module";
+                }
+
+
                 showCelebration(
+                  celebrationType,
                   result.reward || null
                 );
               }
@@ -4501,7 +4690,25 @@ function bindLessons() {
    CELEBRATION
 ========================= */
 
-function showCelebration(reward = null) {
+function showCelebration(
+  type = "lesson",
+  reward = null
+) {
+
+  const card =
+    document.querySelector(
+      ".celebration-card"
+    );
+
+  const mascot =
+    document.getElementById(
+      "celebrationMascot"
+    );
+
+  const title =
+    document.getElementById(
+      "celebrationTitle"
+    );
 
   const subtitle =
     document.getElementById(
@@ -4513,22 +4720,141 @@ function showCelebration(reward = null) {
       "celebrationCopy"
     );
 
+  const rewards =
+    document.getElementById(
+      "celebrationRewards"
+    );
+
+  const xp =
+    document.getElementById(
+      "celebrationXp"
+    );
+
+  const strawberries =
+    document.getElementById(
+      "celebrationStrawberries"
+    );
+
+  const rewardNote =
+    document.getElementById(
+      "celebrationRewardNote"
+    );
+
+
+  card
+    ?.classList
+    .remove(
+      "module-event",
+      "course-event"
+    );
+
+
+  const configs = {
+
+    lesson: {
+      image:
+        "./mascot-lesson.png",
+      title:
+        "ЕСТЬ! 🎉",
+      subtitle:
+        "Ещё один урок готов!",
+      copy:
+        "Маленький шаг — большой прогресс. Продолжаем 💗"
+    },
+
+    module: {
+      image:
+        "./mascot-module.png",
+      title:
+        "МОДУЛЬ ГОТОВ! ✨",
+      subtitle:
+        "Ты закрыла целый модуль!",
+      copy:
+        "Вот это темп! Ещё одна большая часть пути уже позади."
+    },
+
+    course: {
+      image:
+        "./mascot-course.png",
+      title:
+        "КУРС ЗАВЕРШЁН! 👑",
+      subtitle:
+        "Ты дошла до самого финала!",
+      copy:
+        "Это уже не просто галочка — это целый пройденный курс. Гордимся тобой!"
+    }
+  };
+
+
+  const config =
+    configs[type] ||
+    configs.lesson;
+
+
+  mascot.src =
+    config.image;
+
+  title.textContent =
+    config.title;
+
+  subtitle.textContent =
+    config.subtitle;
+
+  copy.textContent =
+    config.copy;
+
+
+  if (type === "module") {
+
+    card
+      ?.classList
+      .add(
+        "module-event"
+      );
+
+  } else if (type === "course") {
+
+    card
+      ?.classList
+      .add(
+        "course-event"
+      );
+  }
+
 
   if (reward?.granted) {
 
-    subtitle.textContent =
-      "Ещё один урок готов!";
+    xp.textContent =
+      `+${reward.xp ?? 0} XP`;
 
-    copy.textContent =
-      `+${reward.xp ?? 0} XP · +${reward.strawberries ?? 0} 🍓`;
+    strawberries.textContent =
+      `+${reward.strawberries ?? 0}`;
+
+    rewards
+      ?.classList
+      .remove(
+        "hidden"
+      );
+
+    rewardNote
+      ?.classList
+      .remove(
+        "hidden"
+      );
 
   } else {
 
-    subtitle.textContent =
-      "Урок снова отмечен ✓";
+    rewards
+      ?.classList
+      .add(
+        "hidden"
+      );
 
-    copy.textContent =
-      "Награда за этот урок уже была получена 💗";
+    rewardNote
+      ?.classList
+      .add(
+        "hidden"
+      );
   }
 
 
@@ -4541,7 +4867,6 @@ function showCelebration(reward = null) {
       "hidden"
     );
 }
-
 
 function hideCelebration() {
 

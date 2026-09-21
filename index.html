@@ -1301,6 +1301,124 @@
     }
 
     /* =========================
+       ACHIEVEMENTS
+    ========================= */
+
+    .achievements-hero {
+      padding: 20px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 92% 10%, rgba(186,255,53,.36), transparent 30%),
+        linear-gradient(145deg, #fff7fb, #fff);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .achievements-hero img {
+      width: 180px;
+      max-width: 62%;
+      display: block;
+      margin: -6px auto -5px;
+    }
+
+    .achievements-count {
+      margin-top: 10px;
+      font-size: 22px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .achievements-caption {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    .achievements-track {
+      width: 100%;
+      height: 8px;
+      margin-top: 14px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #eee9ed;
+    }
+
+    .achievements-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--pink), var(--pink-2));
+      transition: width .3s ease;
+    }
+
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+      padding-bottom: 25px;
+    }
+
+    .achievement-card {
+      min-width: 0;
+      padding: 16px 13px;
+      border-radius: 21px;
+      background: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .achievement-card.locked {
+      opacity: .48;
+      filter: grayscale(.35);
+    }
+
+    .achievement-icon {
+      width: 43px;
+      height: 43px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      border-radius: 14px;
+      background: var(--pink-soft);
+      font-size: 21px;
+    }
+
+    .achievement-card.unlocked .achievement-icon {
+      background: var(--lime-soft);
+    }
+
+    .achievement-title {
+      font-size: 12px;
+      line-height: 1.2;
+      font-weight: 900;
+    }
+
+    .achievement-description {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1.35;
+    }
+
+    .achievement-status {
+      margin-top: 10px;
+      font-size: 8px;
+      line-height: 1;
+      font-weight: 900;
+      color: var(--pink);
+    }
+
+    .achievement-card.locked .achievement-status {
+      color: var(--muted);
+    }
+
+    .celebration-card.achievement-event .celebration-title {
+      color: var(--purple);
+    }
+
+    /* =========================
        ONBOARDING
     ========================= */
 
@@ -2939,31 +3057,37 @@
       </h2>
     </div>
 
-    <div class="simple-screen-card">
+    <div class="achievements-hero">
 
-      <div class="simple-mascot">
+      <img
+        src="./mascot-achievement.png"
+        alt=""
+      >
 
-        <img
-          src="./mascot-achievement.png"
-          alt=""
-        >
-
+      <div
+        id="achievementsCount"
+        class="achievements-count"
+      >
+        0 из 11
       </div>
 
-      <h2 class="simple-title">
-        Скоро здесь будет твоя коллекция 🏆
-      </h2>
+      <div class="achievements-caption">
+        Собирай награды за реальные шаги в обучении 🏆
+      </div>
 
-      <p
-        class="simple-copy"
-        data-typography
-      >
-        Достижения подключим следующим этапом.
-        Они будут открываться за реальные шаги
-        в обучении.
-      </p>
+      <div class="achievements-track">
+        <div
+          id="achievementsFill"
+          class="achievements-fill"
+        ></div>
+      </div>
 
     </div>
+
+    <div
+      id="achievementsGrid"
+      class="achievements-grid"
+    ></div>
 
   </section>
 
@@ -3289,6 +3413,10 @@ let courseCache = {};
 
 let currentScreen =
   "loading";
+
+let celebrationQueue = [];
+
+let celebrationOpen = false;
 
 
 /* =========================
@@ -3851,6 +3979,8 @@ async function renderHome(
 
 
   renderProgressDetails();
+
+  renderAchievements();
 
 
   showScreen(
@@ -4662,20 +4792,52 @@ function bindLessons() {
                     ?.milestone;
 
 
+                queueCelebration(
+                  celebrationType,
+                  result.reward || null
+                );
+
+
                 if (streakMilestone) {
 
-                  showCelebration(
+                  queueCelebration(
                     "streak",
-                    result.reward || null,
+                    null,
                     streakMilestone
                   );
+                }
 
-                } else {
 
-                  showCelebration(
-                    celebrationType,
-                    result.reward || null
+                const achievementEvents =
+                  result
+                    ?.achievementEvents ||
+                  [];
+
+
+                achievementEvents
+                  .forEach(
+                    achievement => {
+
+                      queueCelebration(
+                        "achievement",
+                        null,
+                        achievement
+                      );
+                    }
                   );
+
+
+                if (
+                  achievementEvents.length > 0
+                ) {
+
+                  currentProfile =
+                    await apiRequest({
+                      action:
+                        "profile"
+                    });
+
+                  renderAchievements();
                 }
               }
 
@@ -4704,6 +4866,141 @@ function bindLessons() {
         );
       }
     );
+}
+
+
+/* =========================
+   ACHIEVEMENTS SCREEN
+========================= */
+
+function renderAchievements() {
+
+  const achievements =
+    currentProfile?.achievements || [];
+
+  const grid =
+    document.getElementById(
+      "achievementsGrid"
+    );
+
+  const count =
+    document.getElementById(
+      "achievementsCount"
+    );
+
+  const fill =
+    document.getElementById(
+      "achievementsFill"
+    );
+
+  if (!grid || !count || !fill) {
+    return;
+  }
+
+  const unlockedCount =
+    achievements.filter(
+      item => item.unlocked
+    ).length;
+
+  const total =
+    achievements.length;
+
+  count.textContent =
+    `${unlockedCount} из ${total}`;
+
+  fill.style.width =
+    total > 0
+      ? `${Math.round((unlockedCount / total) * 100)}%`
+      : "0%";
+
+  grid.innerHTML = "";
+
+  achievements.forEach(
+    achievement => {
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+      card.className =
+        `achievement-card ${
+          achievement.unlocked
+            ? "unlocked"
+            : "locked"
+        }`;
+
+      card.innerHTML = `
+        <div class="achievement-icon">
+          ${
+            achievement.unlocked
+              ? safeText(achievement.icon || "🏆")
+              : "🔒"
+          }
+        </div>
+
+        <div class="achievement-title">
+          ${safeText(achievement.title)}
+        </div>
+
+        <div class="achievement-description">
+          ${safeText(achievement.description)}
+        </div>
+
+        <div class="achievement-status">
+          ${
+            achievement.unlocked
+              ? "ОТКРЫТО ✨"
+              : "ЕЩЁ ВПЕРЕДИ"
+          }
+        </div>
+      `;
+
+      grid.appendChild(card);
+    }
+  );
+}
+
+
+/* =========================
+   CELEBRATION QUEUE
+========================= */
+
+function queueCelebration(
+  type,
+  reward = null,
+  extra = null
+) {
+
+  celebrationQueue.push({
+    type,
+    reward,
+    extra
+  });
+
+  showNextCelebration();
+}
+
+
+function showNextCelebration() {
+
+  if (
+    celebrationOpen ||
+    celebrationQueue.length === 0
+  ) {
+    return;
+  }
+
+  const event =
+    celebrationQueue.shift();
+
+  celebrationOpen = true;
+
+  showCelebration(
+    event.type,
+    event.reward,
+    event.extra
+  );
 }
 
 
@@ -4768,7 +5065,8 @@ function showCelebration(
     .remove(
       "module-event",
       "course-event",
-      "streak-event"
+      "streak-event",
+      "achievement-event"
     );
 
 
@@ -4816,6 +5114,17 @@ function showCelebration(
         "Ты держишь темп!",
       copy:
         "Продолжай в том же духе — твоя серия растёт каждый день."
+    },
+
+    achievement: {
+      image:
+        "./mascot-achievement.png",
+      title:
+        "НОВОЕ ДОСТИЖЕНИЕ! 🏆",
+      subtitle:
+        "Ещё одна награда твоя!",
+      copy:
+        "Твоя коллекция достижений растёт. Так держать!"
     }
   };
 
@@ -4875,6 +5184,21 @@ function showCelebration(
   }
 
 
+  if (
+    type === "achievement" &&
+    streakMilestone
+  ) {
+
+    subtitle.textContent =
+      streakMilestone.title ||
+      "Новое достижение!";
+
+    copy.textContent =
+      streakMilestone.description ||
+      "Ещё одна награда в твоей коллекции.";
+  }
+
+
   if (type === "module") {
 
     card
@@ -4898,10 +5222,18 @@ function showCelebration(
       .add(
         "streak-event"
       );
+
+  } else if (type === "achievement") {
+
+    card
+      ?.classList
+      .add(
+        "achievement-event"
+      );
   }
 
 
-  if (reward?.granted) {
+  if (reward?.granted && type !== "achievement") {
 
     xp.textContent =
       `+${reward.xp ?? 0} XP`;
@@ -4957,6 +5289,13 @@ function hideCelebration() {
     .add(
       "hidden"
     );
+
+  celebrationOpen = false;
+
+  setTimeout(
+    showNextCelebration,
+    120
+  );
 }
 
 
@@ -5054,6 +5393,8 @@ document
             target ===
             "achievements"
           ) {
+
+            renderAchievements();
 
             showScreen(
               "achievements"

@@ -1296,6 +1296,10 @@
       color: #c18400;
     }
 
+    .celebration-card.streak-event .celebration-title {
+      color: #ff6a00;
+    }
+
     /* =========================
        ONBOARDING
     ========================= */
@@ -4652,10 +4656,27 @@ function bindLessons() {
                 }
 
 
-                showCelebration(
-                  celebrationType,
-                  result.reward || null
-                );
+                const streakMilestone =
+                  result
+                    ?.streakEvent
+                    ?.milestone;
+
+
+                if (streakMilestone) {
+
+                  showCelebration(
+                    "streak",
+                    result.reward || null,
+                    streakMilestone
+                  );
+
+                } else {
+
+                  showCelebration(
+                    celebrationType,
+                    result.reward || null
+                  );
+                }
               }
 
 
@@ -4692,7 +4713,8 @@ function bindLessons() {
 
 function showCelebration(
   type = "lesson",
-  reward = null
+  reward = null,
+  streakMilestone = null
 ) {
 
   const card =
@@ -4745,7 +4767,8 @@ function showCelebration(
     ?.classList
     .remove(
       "module-event",
-      "course-event"
+      "course-event",
+      "streak-event"
     );
 
 
@@ -4753,7 +4776,7 @@ function showCelebration(
 
     lesson: {
       image:
-        "./mascot-lesson.png",
+        "./mascot-lesson-complete.png",
       title:
         "ЕСТЬ! 🎉",
       subtitle:
@@ -4764,7 +4787,7 @@ function showCelebration(
 
     module: {
       image:
-        "./mascot-module.png",
+        "./mascot-module-complete.png",
       title:
         "МОДУЛЬ ГОТОВ! ✨",
       subtitle:
@@ -4775,13 +4798,24 @@ function showCelebration(
 
     course: {
       image:
-        "./mascot-course.png",
+        "./mascot-course-complete.png",
       title:
         "КУРС ЗАВЕРШЁН! 👑",
       subtitle:
         "Ты дошла до самого финала!",
       copy:
         "Это уже не просто галочка — это целый пройденный курс. Гордимся тобой!"
+    },
+
+    streak: {
+      image:
+        "./mascot-streak.png",
+      title:
+        "ВОТ ЭТО СЕРИЯ! 🔥",
+      subtitle:
+        "Ты держишь темп!",
+      copy:
+        "Продолжай в том же духе — твоя серия растёт каждый день."
     }
   };
 
@@ -4804,6 +4838,43 @@ function showCelebration(
     config.copy;
 
 
+  if (
+    type === "streak" &&
+    streakMilestone
+  ) {
+
+    const streakTexts = {
+      3: {
+        subtitle: "3 дня подряд! 🔥",
+        copy: "Вот это темп! Ты уже три дня не отпускаешь обучение."
+      },
+      7: {
+        subtitle: "Целая неделя подряд! 🔥",
+        copy: "7 дней в ритме — это уже настоящая привычка. Красотка!"
+      },
+      14: {
+        subtitle: "14 дней подряд! 🔥",
+        copy: "Две недели без остановки. Вот это серия!"
+      },
+      30: {
+        subtitle: "30 ДНЕЙ ПОДРЯД! 🔥",
+        copy: "Месяц в ритме обучения — мощнейшая серия. Это заслуживает отдельного праздника!"
+      }
+    };
+
+    const streakText =
+      streakTexts[streakMilestone];
+
+    if (streakText) {
+      subtitle.textContent =
+        streakText.subtitle;
+
+      copy.textContent =
+        streakText.copy;
+    }
+  }
+
+
   if (type === "module") {
 
     card
@@ -4818,6 +4889,14 @@ function showCelebration(
       ?.classList
       .add(
         "course-event"
+      );
+
+  } else if (type === "streak") {
+
+    card
+      ?.classList
+      .add(
+        "streak-event"
       );
   }
 
